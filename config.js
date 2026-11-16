@@ -1,5 +1,5 @@
 // Supabase project credentials বসানোর আগে অ্যাপটি live registration চালাবে না।
 window.APP_CONFIG = {
-  SUPABASE_URL: "YOUR_SUPABASE_PROJECT_URL",
-  SUPABASE_ANON_KEY: "YOUR_SUPABASE_ANON_KEY"
+  SUPABASE_URL: "https://acrlviofrdalxriqehdj.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_pdknTlelfB1Z6GpXGa9xIw_59OBfsFr"
 };
