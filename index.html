@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142d50">
+  <meta name="description" content="Mahbub BCS Guideline - BCS, Bank and Government Job Preparation">
+  <title>Mahbub BCS Guideline</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><img src="assets/icon.svg" alt=""><div><b>Mahbub BCS Guideline</b><small>চাকরির প্রস্তুতি প্ল্যাটফর্ম</small></div></div>
+  <button id="installBtn" class="ghost hidden">Install App</button>
+</header>
+
+<main>
+  <section id="authView" class="auth-wrap">
+    <div class="hero">
+      <span class="eyebrow">YOUR PREPARATION PARTNER</span>
+      <h1>লক্ষ্য হোক প্রস্তুতি,<br>সাফল্য হোক অর্জন।</h1>
+      <p>BCS, ব্যাংক, মন্ত্রণালয় ও অধিদপ্তরের পরীক্ষার প্রস্তুতি এক জায়গায়।</p>
+    </div>
+    <div class="panel auth-panel">
+      <div class="tabs"><button class="tab active" data-tab="login">লগইন</button><button class="tab" data-tab="signup">নতুন অ্যাকাউন্ট</button></div>
+      <form id="authForm">
+        <label id="nameLabel" class="hidden">নাম<input id="fullName" autocomplete="name" placeholder="আপনার নাম"></label>
+        <label>ইমেইল<input id="email" type="email" required autocomplete="email" placeholder="name@example.com"></label>
+        <label>পাসওয়ার্ড<input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="কমপক্ষে ৬ অক্ষর"></label>
+        <button class="primary full" id="authSubmit">লগইন করুন</button>
+      </form>
+      <p class="muted tiny" id="authNote">নতুন হলে “নতুন অ্যাকাউন্ট” নির্বাচন করুন।</p>
+      <p id="authMessage" class="message" role="status"></p>
+      <p class="tiny muted">অ্যাকাউন্ট ব্যবহারের জন্য ইন্টারনেট সংযোগ প্রয়োজন।</p>
+    </div>
+  </section>
+
+  <section id="appView" class="hidden">
+    <div class="welcome"><div><span class="eyebrow">DASHBOARD</span><h1>স্বাগতম, <span id="userName">শিক্ষার্থী</span></h1><p>আজকের প্রস্তুতি শুরু করো।</p></div><button id="logoutBtn" class="ghost">লগআউট</button></div>
+    <div class="stats">
+      <div class="stat"><strong id="testCount">০</strong><span>মোট পরীক্ষা</span></div>
+      <div class="stat"><strong id="avgScore">০%</strong><span>গড় নম্বর</span></div>
+      <div class="stat"><strong id="bestScore">০%</strong><span>সর্বোচ্চ</span></div>
+    </div>
+    <h2>পরীক্ষার বিভাগ</h2>
+    <div class="category-grid">
+      <button class="category" data-category="BCS"><span>📚</span><b>BCS প্রস্তুতি</b><small>প্রিলিমিনারি প্রশ্ন</small></button>
+      <button class="category" data-category="Bank"><span>🏦</span><b>ব্যাংক নিয়োগ</b><small>ব্যাংক পরীক্ষার অনুশীলন</small></button>
+      <button class="category" data-category="Govt"><span>🏛️</span><b>সরকারি চাকরি</b><small>মন্ত্রণালয় ও অধিদপ্তর</small></button>
+      <button class="category" data-category="Subject"><span>🧠</span><b>বিষয়ভিত্তিক</b><small>বাংলা, ইংরেজি, গণিত ও সাধারণ জ্ঞান</small></button>
+    </div>
+    <div class="section-head"><h2>মডেল টেস্ট</h2><span class="pill">নমুনা প্রশ্ন</span></div>
+    <div class="panel test-card"><div><b>দৈনিক অনুশীলন পরীক্ষা</b><p class="muted">১০টি প্রশ্ন · ১০ মিনিট · প্রতিটি ১ নম্বর</p></div><button id="startTest" class="primary">পরীক্ষা শুরু</button></div>
+    <h2>সাম্প্রতিক ফলাফল</h2>
+    <div id="history" class="panel history"><p class="muted">এখনো কোনো পরীক্ষা দেওয়া হয়নি।</p></div>
+  </section>
+
+  <section id="quizView" class="hidden">
+    <div class="quiz-head"><button id="quitQuiz" class="ghost">← ফিরে যান</button><span class="pill" id="quizCategory">মডেল টেস্ট</span><strong id="timer">১০:০০</strong></div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="question-meta"><span id="questionNumber">প্রশ্ন ১/১০</span><span>প্রতিটি ১ নম্বর</span></div>
+    <div class="panel question-panel"><h2 id="questionText"></h2><div id="options" class="options"></div></div>
+    <div class="quiz-actions"><button id="prevQuestion" class="ghost">পূর্ববর্তী</button><button id="nextQuestion" class="primary">পরবর্তী</button><button id="submitQuiz" class="primary hidden">পরীক্ষা জমা দিন</button></div>
+  </section>
+
+  <section id="resultView" class="hidden">
+    <div class="panel result-panel"><span class="eyebrow">TEST COMPLETED</span><h1>তোমার ফলাফল</h1><div class="score-circle"><strong id="score">০</strong><span>১০ নম্বরের মধ্যে</span></div><h2 id="resultText">ভালো চেষ্টা!</h2><p id="resultSummary" class="muted"></p><button id="reviewBtn" class="primary full">উত্তর ও ব্যাখ্যা দেখুন</button><button id="dashboardBtn" class="ghost full">ড্যাশবোর্ডে ফিরে যান</button></div>
+    <div id="reviewList"></div>
+  </section>
+</main>
+<footer>© <span id="year"></span> Mahbub BCS Guideline · শিক্ষামূলক অনুশীলনের জন্য</footer>
+<div id="toast" class="toast" role="status"></div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
