@@ -2,78 +2,153 @@
 <html lang="bn">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#142d50">
-  <meta name="description" content="Mahbub BCS Guideline - BCS, Bank and Government Job Preparation">
-  <title>Mahbub BCS Guideline</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="description" content="Mahbub BCS Guidelines — BCS, Bank and Government Job Preparation">
+  <title>Mahbub BCS Guidelines</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="./config.js"></script>
+  <script defer src="./question-bank.js"></script>
+  <script defer src="./practice-questions.js"></script>
+  <script defer src="./app.js"></script>
 </head>
 <body>
-<header class="topbar">
-  <div class="brand"><img src="assets/icon.svg" alt=""><div><b>Mahbub BCS Guideline</b><small>চাকরির প্রস্তুতি প্ল্যাটফর্ম</small></div></div>
-  <button id="installBtn" class="ghost hidden">Install App</button>
-</header>
-
-<main>
-  <section id="authView" class="auth-wrap">
-    <div class="hero">
-      <span class="eyebrow">YOUR PREPARATION PARTNER</span>
-      <h1>লক্ষ্য হোক প্রস্তুতি,<br>সাফল্য হোক অর্জন।</h1>
-      <p>BCS, ব্যাংক, মন্ত্রণালয় ও অধিদপ্তরের পরীক্ষার প্রস্তুতি এক জায়গায়।</p>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Mahbub BCS Guidelines home">
+      <img id="brandPhoto" src="./assets/icon.svg" alt="Mahbub BCS logo">
+      <span class="brand-copy"><b>Mahbub BCS</b><small>GUIDELINES · YOUR PREPARATION PARTNER</small></span>
+    </a>
+    <div class="top-actions">
+      <button id="installBtn" class="button button-light hidden" type="button">Install App</button>
+      <button id="photoBtn" class="icon-button hidden" type="button" title="Change profile photo" aria-label="Change profile photo">▧</button>
     </div>
-    <div class="panel auth-panel">
-      <div class="tabs"><button class="tab active" data-tab="login">লগইন</button><button class="tab" data-tab="signup">নতুন অ্যাকাউন্ট</button></div>
-      <form id="authForm">
-        <label id="nameLabel" class="hidden">নাম<input id="fullName" autocomplete="name" placeholder="আপনার নাম"></label>
-        <label>ইমেইল<input id="email" type="email" required autocomplete="email" placeholder="name@example.com"></label>
-        <label>পাসওয়ার্ড<input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="কমপক্ষে ৬ অক্ষর"></label>
-        <button class="primary full" id="authSubmit">লগইন করুন</button>
-      </form>
-      <p class="muted tiny" id="authNote">নতুন হলে “নতুন অ্যাকাউন্ট” নির্বাচন করুন।</p>
-      <p id="authMessage" class="message" role="status"></p>
-      <p class="tiny muted">অ্যাকাউন্ট ব্যবহারের জন্য ইন্টারনেট সংযোগ প্রয়োজন।</p>
-    </div>
-  </section>
+  </header>
 
-  <section id="appView" class="hidden">
-    <div class="welcome"><div><span class="eyebrow">DASHBOARD</span><h1>স্বাগতম, <span id="userName">শিক্ষার্থী</span></h1><p>আজকের প্রস্তুতি শুরু করো।</p></div><button id="logoutBtn" class="ghost">লগআউট</button></div>
-    <div class="stats">
-      <div class="stat"><strong id="testCount">০</strong><span>মোট পরীক্ষা</span></div>
-      <div class="stat"><strong id="avgScore">০%</strong><span>গড় নম্বর</span></div>
-      <div class="stat"><strong id="bestScore">০%</strong><span>সর্বোচ্চ</span></div>
-    </div>
-    <h2>পরীক্ষার বিভাগ</h2>
-    <div class="category-grid">
-      <button class="category" data-category="BCS"><span>📚</span><b>BCS প্রস্তুতি</b><small>প্রিলিমিনারি প্রশ্ন</small></button>
-      <button class="category" data-category="Bank"><span>🏦</span><b>ব্যাংক নিয়োগ</b><small>ব্যাংক পরীক্ষার অনুশীলন</small></button>
-      <button class="category" data-category="Govt"><span>🏛️</span><b>সরকারি চাকরি</b><small>মন্ত্রণালয় ও অধিদপ্তর</small></button>
-      <button class="category" data-category="Subject"><span>🧠</span><b>বিষয়ভিত্তিক</b><small>বাংলা, ইংরেজি, গণিত ও সাধারণ জ্ঞান</small></button>
-    </div>
-    <div class="section-head"><h2>মডেল টেস্ট</h2><span class="pill">নমুনা প্রশ্ন</span></div>
-    <div class="panel test-card"><div><b>দৈনিক অনুশীলন পরীক্ষা</b><p class="muted">১০টি প্রশ্ন · ১০ মিনিট · প্রতিটি ১ নম্বর</p></div><button id="startTest" class="primary">পরীক্ষা শুরু</button></div>
-    <h2>সাম্প্রতিক ফলাফল</h2>
-    <div id="history" class="panel history"><p class="muted">এখনো কোনো পরীক্ষা দেওয়া হয়নি।</p></div>
-  </section>
+  <main class="page-shell">
+    <section id="authView" class="auth-layout">
+      <div class="hero-panel">
+        <span class="eyebrow">YOUR PREPARATION PARTNER</span>
+        <h1>লক্ষ্য হোক প্রস্তুতি,<br>সাফল্য হোক অর্জন।</h1>
+        <p>BCS, Bank ও Government Job প্রস্তুতির জন্য বিষয়ভিত্তিক পাঠ, প্রশ্নব্যাংক এবং ৯ মাসের পরিকল্পনা।</p>
+        <div class="hero-points"><span>✓ Subject-wise Library</span><span>✓ Verified Question Archive</span><span>✓ 9-Month Study Plan</span></div>
+      </div>
+      <div class="panel auth-panel">
+        <div class="tabs"><button class="tab active" data-tab="login" type="button">লগইন</button><button class="tab" data-tab="signup" type="button">নতুন অ্যাকাউন্ট</button></div>
+        <form id="authForm">
+          <label id="nameLabel" class="hidden">আপনার নাম<input id="fullName" autocomplete="name" placeholder="আপনার নাম"></label>
+          <label>ইমেইল<input id="email" type="email" required autocomplete="email" placeholder="name@example.com"></label>
+          <label>পাসওয়ার্ড<input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="কমপক্ষে ৬ অক্ষর"></label>
+          <button class="button button-primary full" id="authSubmit" type="submit">লগইন করুন</button>
+        </form>
+        <button id="forgotBtn" class="text-button" type="button">পাসওয়ার্ড ভুলে গেছেন?</button>
+        <p id="authNote" class="muted tiny">নতুন হলে “নতুন অ্যাকাউন্ট” নির্বাচন করুন।</p>
+        <p id="authMessage" class="message" role="status" aria-live="polite"></p>
+        <p class="tiny muted">অ্যাকাউন্ট ব্যবহারের জন্য ইন্টারনেট সংযোগ প্রয়োজন।</p>
+      </div>
+    </section>
 
-  <section id="quizView" class="hidden">
-    <div class="quiz-head"><button id="quitQuiz" class="ghost">← ফিরে যান</button><span class="pill" id="quizCategory">মডেল টেস্ট</span><strong id="timer">১০:০০</strong></div>
-    <div class="progress"><div id="progressBar"></div></div>
-    <div class="question-meta"><span id="questionNumber">প্রশ্ন ১/১০</span><span>প্রতিটি ১ নম্বর</span></div>
-    <div class="panel question-panel"><h2 id="questionText"></h2><div id="options" class="options"></div></div>
-    <div class="quiz-actions"><button id="prevQuestion" class="ghost">পূর্ববর্তী</button><button id="nextQuestion" class="primary">পরবর্তী</button><button id="submitQuiz" class="primary hidden">পরীক্ষা জমা দিন</button></div>
-  </section>
+    <section id="resetView" class="auth-layout hidden">
+      <div class="hero-panel"><span class="eyebrow">ACCOUNT SECURITY</span><h1>নতুন পাসওয়ার্ড<br>সেট করুন।</h1><p>নতুন পাসওয়ার্ডটি নিরাপদে সংরক্ষণ করুন এবং কারও সঙ্গে শেয়ার করবেন না।</p></div>
+      <div class="panel auth-panel">
+        <h2>Reset Password</h2>
+        <form id="resetForm">
+          <label>নতুন পাসওয়ার্ড<input id="newPassword" type="password" minlength="8" required autocomplete="new-password" placeholder="কমপক্ষে ৮ অক্ষর"></label>
+          <label>পুনরায় লিখুন<input id="confirmPassword" type="password" minlength="8" required autocomplete="new-password" placeholder="একই পাসওয়ার্ড আবার লিখুন"></label>
+          <button id="resetSubmit" class="button button-primary full" type="submit">পাসওয়ার্ড আপডেট করুন</button>
+        </form>
+        <p id="resetMessage" class="message" role="status" aria-live="polite"></p>
+      </div>
+    </section>
 
-  <section id="resultView" class="hidden">
-    <div class="panel result-panel"><span class="eyebrow">TEST COMPLETED</span><h1>তোমার ফলাফল</h1><div class="score-circle"><strong id="score">০</strong><span>১০ নম্বরের মধ্যে</span></div><h2 id="resultText">ভালো চেষ্টা!</h2><p id="resultSummary" class="muted"></p><button id="reviewBtn" class="primary full">উত্তর ও ব্যাখ্যা দেখুন</button><button id="dashboardBtn" class="ghost full">ড্যাশবোর্ডে ফিরে যান</button></div>
-    <div id="reviewList"></div>
-  </section>
-</main>
-<footer>© <span id="year"></span> Mahbub BCS Guideline · শিক্ষামূলক অনুশীলনের জন্য</footer>
-<div id="toast" class="toast" role="status"></div>
-<script src="config.js"></script>
-<script src="app.js"></script>
+    <section id="appView" class="hidden">
+      <div class="welcome-row">
+        <div><span class="eyebrow">DASHBOARD</span><h1>স্বাগতম, <span id="userName">শিক্ষার্থী</span></h1><p class="muted">আজকের প্রস্তুতি শুরু করুন।</p></div>
+        <button id="logoutBtn" class="button button-light" type="button">লগআউট</button>
+      </div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="homeView" type="button">Home</button>
+        <button class="nav-item" data-view="subjectsView" type="button">Subjects</button>
+        <button class="nav-item" data-view="questionsView" type="button">Question Bank</button>
+        <button class="nav-item" data-view="planView" type="button">Study Plan</button>
+        <button class="nav-item" data-view="mockView" type="button">Mock Tests</button>
+      </nav>
+
+      <section id="homeView" class="content-view">
+        <div class="stats-grid">
+          <article class="stat-card"><strong id="testCount">০</strong><span>Completed Tests</span></article>
+          <article class="stat-card"><strong id="avgScore">০%</strong><span>Average Score</span></article>
+          <article class="stat-card"><strong id="bestScore">০%</strong><span>Best Score</span></article>
+        </div>
+        <div class="section-heading"><div><span class="eyebrow">LEARNING LIBRARY</span><h2>প্রস্তুতির বিভাগ</h2></div><button class="text-button" data-goto="subjectsView" type="button">সব বিষয় দেখুন →</button></div>
+        <div id="homeSubjectGrid" class="folder-grid"></div>
+        <div class="section-heading"><div><span class="eyebrow">PREVIOUS YEAR QUESTIONS</span><h2>বিগত বছরের প্রশ্ন</h2></div><button class="text-button" data-goto="questionsView" type="button">প্রশ্নব্যাংক খুলুন →</button></div>
+        <div id="homeExamGrid" class="folder-grid exam-grid"></div>
+        <div class="section-heading"><div><span class="eyebrow">TODAY'S ROUTINE</span><h2>আজকের ৬ ঘণ্টার পরিকল্পনা</h2></div><button class="text-button" data-goto="planView" type="button">পূর্ণ রুটিন →</button></div>
+        <div id="homeRoutine" class="routine-preview panel"></div>
+        <div class="section-heading"><div><span class="eyebrow">RECENT ACTIVITY</span><h2>সাম্প্রতিক ফলাফল</h2></div></div>
+        <div id="history" class="panel history"><p class="muted">এখনো কোনো পরীক্ষা দেওয়া হয়নি।</p></div>
+      </section>
+
+      <section id="subjectsView" class="content-view hidden">
+        <div class="section-heading"><div><span class="eyebrow">SUBJECT LIBRARY</span><h2>বিষয়ভিত্তিক ফোল্ডার</h2><p class="muted">বিষয় → টপিক → সাবটপিক</p></div></div>
+        <div id="subjectGrid" class="folder-grid"></div>
+        <div id="subjectDetail" class="panel detail-panel hidden" aria-live="polite"></div>
+      </section>
+
+      <section id="questionsView" class="content-view hidden">
+        <div class="section-heading"><div><span class="eyebrow">PREVIOUS YEAR QUESTION ARCHIVE</span><h2>বিগত বছরের প্রশ্নব্যাংক</h2><p class="muted">প্রশ্নের মূল রূপ, সাল ও পরীক্ষার পরিচয় যাচাই করে তবেই যুক্ত হবে।</p></div></div>
+        <div id="examFolderGrid" class="folder-grid exam-grid"></div>
+        <div id="questionPanel" class="panel detail-panel">
+          <h3>Question Archive</h3>
+          <p>একটি পরীক্ষার ফোল্ডার নির্বাচন করুন। ২০১০–২০২৬ সালের প্রশ্ন সাল ও পরীক্ষাভিত্তিকভাবে সাজানো হবে।</p>
+          <p class="notice">যাচাইকৃত প্রশ্ন না থাকলে এখানে কোনো অনুমাননির্ভর প্রশ্ন দেখানো হবে না।</p>
+        </div>
+      </section>
+
+      <section id="mockView" class="content-view hidden">
+        <div class="section-heading"><div><span class="eyebrow">PRACTICE & SELF-ASSESSMENT</span><h2>Mock Tests</h2><p class="muted">এগুলো অনুশীলনের জন্য তৈরি প্রশ্ন; বিগত বছরের প্রশ্ন নয়।</p></div></div>
+        <div id="mockIntro" class="panel">
+          <h3>Daily Practice Test</h3><p class="muted">১০টি অনুশীলনী প্রশ্ন · ১০ মিনিট · প্রতিটি ১ নম্বর। পরীক্ষা শেষে উত্তর ও ব্যাখ্যা দেখুন।</p>
+          <button id="startMockTest" class="button button-primary" type="button">পরীক্ষা শুরু করুন</button>
+        </div>
+        <div id="mockQuiz" class="panel hidden">
+          <div class="quiz-topline"><button id="quitMockTest" class="button button-light" type="button">← বন্ধ করুন</button><span id="mockCounter" class="eyebrow">প্রশ্ন ১/১০</span><strong id="mockTimer">১০:০০</strong></div>
+          <div class="progress-track"><div id="mockProgress"></div></div>
+          <h3 id="mockQuestion" class="mock-question"></h3>
+          <div id="mockOptions" class="mock-options"></div>
+          <div class="quiz-actions"><button id="mockPrev" class="button button-light" type="button">পূর্ববর্তী</button><button id="mockNext" class="button button-primary" type="button">পরবর্তী</button><button id="mockSubmit" class="button button-primary hidden" type="button">জমা দিন</button></div>
+        </div>
+        <div id="mockResult" class="panel hidden">
+          <div class="result-score"><strong id="mockScore">০/১০</strong><span>আপনার ফলাফল</span></div><h3 id="mockResultTitle">অনুশীলন সম্পন্ন</h3><div id="mockReview"></div><button id="mockAgain" class="button button-primary" type="button">আবার পরীক্ষা দিন</button>
+        </div>
+      </section>
+
+      <section id="planView" class="content-view hidden">
+        <div class="section-heading"><div><span class="eyebrow">9-MONTH ROADMAP</span><h2>৯ মাসের প্রস্তুতি পরিকল্পনা</h2><p class="muted">প্রতিদিন ৬ ঘণ্টা কার্যকর পড়াশোনা; বিরতি এই সময়ের বাইরে।</p></div></div>
+        <div class="plan-summary panel"><div><strong>৬ ঘণ্টা</strong><span>প্রতিদিন</span></div><div><strong>৪২ ঘণ্টা</strong><span>সপ্তাহে লক্ষ্য</span></div><div><strong>৯ মাস</strong><span>সম্পূর্ণ প্রস্তুতি চক্র</span></div></div>
+        <h3 class="subheading">Daily Study Routine · প্রতিদিনের রুটিন</h3>
+        <div id="dailyRoutine" class="routine-list"></div>
+        <p id="dailyProgress" class="progress-note" aria-live="polite"></p>
+        <h3 class="subheading">Weekly Study Cycle · সাপ্তাহিক পরিকল্পনা</h3>
+        <div id="weeklyPlan" class="weekly-grid"></div>
+        <h3 class="subheading">Monthly Roadmap · মাসভিত্তিক লক্ষ্য</h3>
+        <div id="monthlyPlan" class="month-list"></div>
+        <div class="notice plan-note"><b>গুরুত্বপূর্ণ:</b> ৯ মাসের পরিকল্পনা একটি সংগঠিত প্রস্তুতির লক্ষ্য, পরীক্ষায় সাফল্যের নিশ্চয়তা নয়। নিয়োগ বিজ্ঞপ্তি ও সর্বশেষ সিলেবাস অনুযায়ী বিষয় হালনাগাদ করতে হবে।</div>
+      </section>
+    </section>
+
+    <section id="topicView" class="hidden">
+      <button id="backToSubjects" class="button button-light" type="button">← Subjects</button>
+      <div id="topicContent" class="panel detail-panel"></div>
+    </section>
+
+    <input id="photoInput" type="file" accept="image/*" class="hidden">
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+  <footer class="footer">Mahbub BCS Guidelines <span>·</span> Study with accuracy</footer>
 </body>
 </html>

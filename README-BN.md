@@ -1,45 +1,33 @@
-# Mahbub BCS Guideline — শুরু করার নির্দেশিকা
+# Mahbub BCS Guidelines — সংস্করণ ২
 
-এটি একটি PWA starter project। Android Chrome থেকে ইনস্টল করা যায়। এতে নমুনা প্রশ্ন, টাইমার, উত্তর পর্যালোচনা ও Supabase-ভিত্তিক অ্যাকাউন্ট/ফলাফল সংরক্ষণের সংযোগের কাঠামো আছে।
+এই সংস্করণে যুক্ত হয়েছে:
+- English section headings এবং বিষয়ভিত্তিক Subject Folders
+- প্রতিটি বিষয়ের Topic ও Subtopic তালিকা
+- BCS, Bank এবং Government Job-এর আলাদা Previous Year Question ফোল্ডার
+- ২০১০–২০২৬ সাল নির্বাচন করার কাঠামো
+- প্রতিদিন ৬ ঘণ্টার রুটিন, সাপ্তাহিক চক্র এবং ৯ মাসের পরিকল্পনা
+- দৈনিক ও টপিকভিত্তিক অগ্রগতি Local Storage-এ সংরক্ষণ
+- Header-এ নিজের ছবি যুক্ত করার সুবিধা (শুধু এই ডিভাইসে সংরক্ষিত)
+- PWA manifest, service worker এবং ১৯২/৫১২ PNG আইকন
+- আগের Supabase login/signup ও attempts history-এর সঙ্গে সামঞ্জস্য রাখার চেষ্টা
 
-## ১) আগে যা লাগবে
-- একটি Supabase project
-- একটি GitHub repository
-- Vercel account (অথবা অন্য HTTPS static hosting)
+## গুরুত্বপূর্ণ সতর্কতা
 
-## ২) Supabase সেটআপ
-1. Supabase-এ নতুন project তৈরি করুন।
-2. Project Settings → API থেকে Project URL এবং `anon`/publishable key নিন।
-3. `config.js` ফাইলে `YOUR_SUPABASE_PROJECT_URL` ও `YOUR_SUPABASE_ANON_KEY`-এর জায়গায় মান বসান। `service_role` key কখনোই এখানে দেবেন না।
-4. Supabase → SQL Editor-এ `supabase-schema.sql`-এর SQL চালান।
-5. Authentication → URL Configuration-এ আপনার Vercel domain-কে Site URL ও Redirect URL-এ যুক্ত করুন।
-6. Authentication-এর Email confirmation চালু রাখুন। ইমেইল নিশ্চিতকরণ ছাড়া অ্যাকাউন্টে লগইন সম্ভব নাও হতে পারে।
+২০১০–২০২৬ সালের পূর্ণ বিগত প্রশ্ন এই প্যাকেজে এখনো যুক্ত করা হয়নি। কারণ মূল প্রশ্নপত্র/বিশ্বস্ত উৎস যাচাই ছাড়া কোনো প্রশ্নকে বিগত বছরের প্রশ্ন হিসেবে দেখানো হবে না। `question-bank.js`-এ যাচাইকৃত প্রশ্ন যোগ করার কাঠামো দেওয়া আছে; বর্তমানে array খালি।
 
-## ৩) অনলাইনে প্রকাশ (Vercel)
-1. পুরো project GitHub repository-তে upload করুন।
-2. Vercel-এ GitHub দিয়ে sign in করে Add New → Project নির্বাচন করুন।
-3. repository import করে Framework Preset: Other / Static নির্বাচন করুন।
-4. Build command ফাঁকা রাখুন; Output Directory `.` দিন।
-5. Deploy চাপুন। Vercel একটি HTTPS address দেবে।
-6. Supabase Authentication URL Configuration-এ সেই address যোগ করুন।
+## GitHub-এ আপডেট
 
-## ৪) Android ফোনে ইনস্টল
-1. ফোনে Chrome খুলে Vercel-এর HTTPS link খুলুন।
-2. Chrome-এর তিন ডট মেনু → Install app অথবা Add to Home screen চাপুন।
-3. Install/ Add চাপুন। হোম স্ক্রিনে অ্যাপের আইকন আসবে।
-4. অন্যদের একই link পাঠান; তারাও একইভাবে ইনস্টল করতে পারবে।
+1. ZIP extract করুন।
+2. GitHub repository-এর `main` branch-এ যান।
+3. এই প্যাকেজের `index.html`, `styles.css`, `app.js`, `manifest.webmanifest`, `sw.js`, `question-bank.js` ও `README-BN.md` দিয়ে একই নামের ফাইল replace করুন।
+4. `assets` folder-এর ভেতরের `icon.svg`, `icon-192.png`, `icon-512.png` আপলোড করুন।
+5. আগের `config.js` ফাইলটি **replace বা delete করবেন না**। তাতে আপনার Supabase project configuration আছে।
+6. Commit changes করুন এবং Vercel deployment সম্পন্ন হওয়া পর্যন্ত অপেক্ষা করুন।
 
-## ৫) এখনকার সীমাবদ্ধতা — প্রকাশের আগে পড়ুন
-- বর্তমান প্রশ্নগুলো কেবল নমুনা; এগুলো যাচাইকৃত বিগত বছরের প্রশ্নের পূর্ণাঙ্গ ডেটাবেস নয়।
-- এই starter-এ পরীক্ষার প্রশ্ন browser-এর JavaScript ফাইলে রাখা। উচ্চ-নিরাপত্তার পরীক্ষার জন্য প্রশ্ন/উত্তর server-side-এ রাখতে হবে।
-- Supabase সংযোগ না দিলে রেজিস্ট্রেশন ও ক্লাউডে ফলাফল সংরক্ষণ কাজ করবে না। এটি তখন শুধু UI/নমুনা পরীক্ষা।
-- ফলাফল insert হয়, কিন্তু পূর্ণাঙ্গ admin panel, question management, subscription/payment, abuse protection, audit logs ও backup এখনো তৈরি হয়নি।
-- Supabase-এর `anon`/publishable key browser-এ ব্যবহার করা স্বাভাবিক; `service_role` key কখনো frontend বা GitHub-এ প্রকাশ করবেন না।
-- বাস্তব ব্যবহারকারীর ইমেইল/তথ্য নেওয়ার আগে Privacy Policy, Terms, support contact এবং তথ্য মুছে ফেলার প্রক্রিয়া তৈরি করুন। অপ্রাপ্তবয়স্ক ব্যবহারকারী থাকলে উপযুক্ত অভিভাবকীয় ও গোপনীয়তা-সুরক্ষা বিবেচনা করুন।
+## প্রশ্ন যুক্ত করার নিয়ম
 
-## ৬) পরবর্তী উন্নয়ন
-- Admin dashboard দিয়ে প্রশ্ন যোগ/সম্পাদনা
-- BCS/ব্যাংক/মন্ত্রণালয় আলাদা সিলেবাস ও পরীক্ষার সেট
-- যাচাইকৃত বিগত বছরের প্রশ্ন, উৎস ও সাল
-- বিষয়ভিত্তিক অগ্রগতি, বুকমার্ক ও ভুল প্রশ্ন পুনরায় অনুশীলন
-- প্রশ্ন server থেকে আনা, server-side scoring এবং database backup
+`question-bank.js`-এর format অনুযায়ী প্রতিটি প্রশ্নে মূল প্রশ্ন, মূল অপশন (যদি থাকে), পরীক্ষার নাম, সাল, বিষয় এবং উৎস দিতে হবে। সঠিক উত্তর নিশ্চিত না হলে `correctIndex: null` রাখুন এবং ব্যাখ্যা না থাকলে `explanation: ''` রাখুন।
+
+## Personal photo
+
+অ্যাপে লগইন করে উপরের ছবির/প্রোফাইল আইকন বাটনে চাপ দিয়ে নিজের ছবি নির্বাচন করুন। ছবিটি শুধু এই ব্রাউজারের Local Storage-এ থাকবে; অন্য ডিভাইসে স্বয়ংক্রিয়ভাবে যাবে না।
