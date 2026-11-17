@@ -373,7 +373,14 @@ function openExamFolder(folderId) {
     const filtered = list.filter((q) => (year === 'all' || Number(q.year) === Number(year)) && (subject === 'all' || q.subject === subject));
     const results = $('questionResults');
     if (!filtered.length) {
-      results.innerHTML = `<div class="empty-state"><span class="empty-icon">📂</span><b>এখনো যাচাইকৃত প্রশ্ন যোগ করা হয়নি</b><p>এই ফোল্ডারে ২০১০–২০২৬ সালের কোনো যাচাইকৃত প্রশ্ন পাওয়া যায়নি। মূল প্রশ্নপত্র/বিশ্বস্ত উৎস যাচাই না করে কোনো প্রশ্ন বা অপশন তৈরি করা হবে না।</p></div>`;
+      const archives = (Array.isArray(window.QUESTION_ARCHIVES) ? window.QUESTION_ARCHIVES : [])
+        .filter((item) => item && item.category === folderId && item.url && item.name);
+      const archiveHtml = archives.length
+        ? `<div class="archive-source-list"><h4>প্রশ্নপত্র খোঁজার উৎস</h4>${archives.map((item) =>
+            `<article class="question-card"><b>${escapeHtml(item.name)}</b><p class="muted">${escapeHtml(item.coverage || '')}</p><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">আর্কাইভ খুলুন ↗</a></article>`
+          ).join('')}</div>`
+        : '';
+      results.innerHTML = `<div class="empty-state"><span class="empty-icon">📂</span><b>এখনো যাচাইকৃত প্রশ্ন যোগ করা হয়নি</b><p>২০১০–২০২৬ সালের প্রশ্নের জন্য নিচের উৎসগুলো দেখুন। উৎসে থাকা সব প্রশ্ন এই অ্যাপে কপি করা হয়নি; মূল প্রশ্নপত্র, উত্তর ও পুনঃপ্রকাশের অনুমতি যাচাই করে তবেই যুক্ত হবে।</p>${archiveHtml}</div>`;
       return;
     }
     results.innerHTML = filtered.slice().sort((a, b) => Number(b.year) - Number(a.year)).map((q, index) => {

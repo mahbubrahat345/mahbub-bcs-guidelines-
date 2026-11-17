@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mahbub-bcs-guidelines-v2';
+const CACHE_NAME = 'mahbub-bcs-guidelines-v3';
 const APP_SHELL = [
   './', './index.html', './styles.css', './app.js', './question-bank.js',
   './config.js', './practice-questions.js', './manifest.webmanifest', './assets/icon.svg',
