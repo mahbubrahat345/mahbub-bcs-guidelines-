@@ -327,24 +327,74 @@ function markTopicComplete(key, checked) {
 function openSubject(subjectId) {
   const subject = subjects.find((item) => item.id === subjectId);
   if (!subject) return;
+
   selectedSubjectId = subjectId;
   const progress = getTopicProgress();
+
+  const topicHTML = subject.topics.map((topic, groupIndex) => {
+    const topicTitle = Array.isArray(topic) ? topic[0] : topic.title;
+    const subs = Array.isArray(topic) ? topic[1] : topic.subtopics;
+
+    return `
+      <details class="topic-group" open>
+        <summary>
+          <span>${escapeHtml(topicTitle)}</span>
+          <small>${bn(subs.length)}টি সাবটপিক</small>
+        </summary>
+        <ol>
+          ${subs.map((sub, subIndex) => {
+            const subTitle = typeof sub === 'string' ? sub : sub.title;
+            const items = typeof sub === 'string' ? [] : (sub.items || []);
+            const key = `${subject.id}:${groupIndex}:${subIndex}`;
+            const done = Boolean(progress[key]);
+
+            return `
+              <li class="topic-line">
+                <span>${escapeHtml(subTitle)}</span>
+                <button class="topic-check ${done ? 'completed' : ''}"
+                  type="button"
+                  data-topic-check="${escapeHtml(key)}">
+                  ${done ? '✓ সম্পন্ন' : 'পড়া শেষ হয়নি'}
+                </button>
+                ${items.length ? `
+                  <ul class="subtopic-details">
+                    ${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
+                  </ul>
+                ` : ''}
+              </li>
+            `;
+          }).join('')}
+        </ol>
+      </details>
+    `;
+  }).join('');
+
   $('subjectDetail').classList.remove('hidden');
   $('subjectDetail').innerHTML = `
-    <div class="detail-head"><div><span class="eyebrow">SUBJECT FOLDER</span><h3>${escapeHtml(subject.title)}</h3><p class="muted">${escapeHtml(subject.bn)} · ${escapeHtml(subject.description)}</p></div><button type="button" class="button button-light" id="closeSubject">বন্ধ করুন</button></div>
-    <div class="topic-groups">${subject.topics.map(([topicTitle, subs], groupIndex) => `
-      <details class="topic-group" open>
-        <summary><span>${escapeHtml(topicTitle)}</span><small>${bn(subs.length)} subtopics</small></summary>
-        <ol>${subs.map((sub, subIndex) => {
-          const key = `${subject.id}:${groupIndex}:${subIndex}`;
-          const done = Boolean(progress[key]);
-          return `<li class="topic-line"><span>${escapeHtml(sub)}</span><button class="topic-check ${done ? 'completed' : ''}" type="button" data-topic-check="${escapeHtml(key)}">${done ? '✓ সম্পন্ন' : 'পড়া শেষ হয়নি'}</button></li>`;
-        }).join('')}</ol>
-      </details>`).join('')}</div>`;
+    <div class="detail-head">
+      <div>
+        <span class="eyebrow">SUBJECT FOLDER</span>
+        <h3>${escapeHtml(subject.title)}</h3>
+        <p class="muted">${escapeHtml(subject.bn)} · ${escapeHtml(subject.description)}</p>
+      </div>
+      <button type="button" class="button button-light" id="closeSubject">বন্ধ করুন</button>
+    </div>
+    <div class="topic-groups">${topicHTML}</div>
+  `;
+
   $('subjectDetail').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  $('closeSubject').addEventListener('click', () => $('subjectDetail').classList.add('hidden'));
-  $('subjectDetail').querySelectorAll('[data-topic-check]').forEach((button) => {
-    button.addEventListener('click', () => markTopicComplete(button.dataset.topicCheck, !button.classList.contains('completed')));
+
+  $('closeSubject').addEventListener('click', () => {
+    $('subjectDetail').classList.add('hidden');
+  });
+
+  $('subjectDetail').querySelectorAll('[data-topic-check]').forEach(button => {
+    button.addEventListener('click', () => {
+      markTopicComplete(
+        button.dataset.topicCheck,
+        !button.classList.contains('completed')
+      );
+    });
   });
 }
 
