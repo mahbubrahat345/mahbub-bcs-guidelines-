@@ -33,132 +33,633 @@ let mockIndex = 0;
 let mockSeconds = 600;
 let mockTimerId = null;
 
+ 
 const subjects = [
   {
-    id: 'bangla', title: 'Bangla', bn: 'বাংলা ভাষা ও সাহিত্য', icon: 'অ', color: 'blue',
-    description: 'ব্যাকরণ, ভাষা, সাহিত্য, লেখক ও রচনা।',
+    id: 'bangla',
+    title: 'Bangla',
+    bn: 'বাংলা ভাষা ও সাহিত্য',
+    icon: 'অ',
+    color: 'blue',
+    description: 'বাংলা ব্যাকরণ, ভাষা, সাহিত্য ও সাহিত্যিক।',
     topics: [
-      ['বাংলা ভাষা ও ব্যাকরণ', ['ধ্বনি ও বর্ণ; উচ্চারণ ও বানান', 'শব্দ, পদ, প্রকৃতি ও প্রত্যয়', 'সন্ধি, সমাস, উপসর্গ ও অনুসর্গ', 'কারক, বিভক্তি, বাচ্য ও উক্তি', 'বাক্য, বাক্যশুদ্ধি ও বিরামচিহ্ন', 'সমার্থক, বিপরীতার্থক, এককথায় প্রকাশ', 'বাগধারা, প্রবাদ-প্রবচন ও পরিভাষা']],
-      ['বাংলা সাহিত্যের ইতিহাস', ['প্রাচীন যুগ ও চর্যাপদ', 'মধ্যযুগ: শ্রীকৃষ্ণকীর্তন ও মঙ্গলকাব্য', 'বৈষ্ণব পদাবলি, অনুবাদ সাহিত্য ও মুসলিম সাহিত্য', 'আধুনিক যুগের সূচনা ও উনিশ শতক', 'বিশ শতক ও সমকালীন সাহিত্য']],
-      ['সাহিত্যিক ও সাহিত্যকর্ম', ['কবি, ঔপন্যাসিক, নাট্যকার ও প্রাবন্ধিক', 'কাব্যগ্রন্থ, উপন্যাস, নাটক ও ছোটগল্প', 'সাহিত্য পুরস্কার ও সাময়িকপত্র', 'মুক্তিযুদ্ধভিত্তিক সাহিত্য ও ভাষা আন্দোলনভিত্তিক সাহিত্য']],
-      ['লিখিত বাংলা', ['সারাংশ ও সারমর্ম', 'ভাবসম্প্রসারণ', 'রচনা ও প্রবন্ধ', 'পত্র, আবেদন ও প্রতিবেদন', 'অনুবাদ ও অনুচ্ছেদ']]
+      {
+        title: 'বাংলা ভাষা ও ধ্বনিতত্ত্ব',
+        subtopics: [
+          { title: 'ভাষা ও বাংলা ভাষা', items: ['ভাষার সংজ্ঞা, বৈশিষ্ট্য ও উপাদান', 'ভাষার উৎপত্তি ও ক্রমবিকাশ', 'বাংলা ভাষার উৎপত্তি ও ইন্দো-ইউরোপীয় ভাষাগোষ্ঠী', 'বাংলা ভাষার উপভাষা ও আঞ্চলিক রূপ'] },
+          { title: 'ধ্বনিতত্ত্ব', items: ['ধ্বনি ও বর্ণের পার্থক্য', 'স্বরধ্বনি ও ব্যঞ্জনধ্বনি', 'উচ্চারণস্থান ও উচ্চারণরীতি', 'অল্পপ্রাণ ও মহাপ্রাণ ধ্বনি', 'ঘোষ ও অঘোষ ধ্বনি', 'নাসিক্য ও উষ্ম ধ্বনি'] },
+          { title: 'বর্ণ ও বানান', items: ['স্বরবর্ণ ও ব্যঞ্জনবর্ণ', 'যুক্তবর্ণ ও ফলা', 'ণত্ব ও ষত্ব বিধান', 'শুদ্ধ বানান ও বানানরীতি', 'বাংলা একাডেমির প্রমিত বানানরীতি'] }
+        ]
+      },
+      {
+        title: 'শব্দতত্ত্ব ও রূপতত্ত্ব',
+        subtopics: [
+          { title: 'শব্দের শ্রেণিবিভাগ', items: ['উৎস অনুসারে শব্দ: তৎসম, অর্ধতৎসম, তদ্ভব, দেশি ও বিদেশি', 'গঠন অনুসারে শব্দ: মৌলিক ও সাধিত', 'অর্থ অনুসারে শব্দের শ্রেণি', 'শব্দের অর্থ পরিবর্তন'] },
+          { title: 'শব্দগঠন', items: ['প্রকৃতি ও প্রত্যয়', 'উপসর্গ ও অনুসর্গ', 'বাংলা ও সংস্কৃত প্রত্যয়', 'কৃৎ ও তদ্ধিত প্রত্যয়', 'সমাসবদ্ধ ও সন্ধিবদ্ধ শব্দ'] },
+          { title: 'সন্ধি ও সমাস', items: ['স্বরসন্ধি, ব্যঞ্জনসন্ধি ও বিসর্গসন্ধি', 'সন্ধিবিচ্ছেদ', 'দ্বন্দ্ব, কর্মধারয় ও তৎপুরুষ সমাস', 'বহুব্রীহি, দ্বিগু ও অব্যয়ীভাব সমাস', 'সমাস নির্ণয় ও ব্যাসবাক্য'] }
+        ]
+      },
+      {
+        title: 'পদ, বাক্য ও ব্যাকরণ',
+        subtopics: [
+          { title: 'পদ প্রকরণ', items: ['বিশেষ্য ও তার প্রকারভেদ', 'সর্বনাম ও তার প্রকারভেদ', 'বিশেষণ ও তার প্রকারভেদ', 'ক্রিয়া ও তার প্রকারভেদ', 'ক্রিয়াবিশেষণ ও অব্যয়'] },
+          { title: 'কারক ও বিভক্তি', items: ['কর্তৃকারক ও কর্মকারক', 'করণ, সম্প্রদান, অপাদান ও অধিকরণ কারক', 'বিভক্তি ও অনুসর্গ', 'কারক নির্ণয়'] },
+          { title: 'বাক্যতত্ত্ব', items: ['বাক্যের সংজ্ঞা ও গঠন', 'সরল, জটিল ও যৌগিক বাক্য', 'বাক্যের উদ্দেশ্য ও বিধেয়', 'বাক্য রূপান্তর', 'বাচ্য ও উক্তি পরিবর্তন', 'বাক্যশুদ্ধি ও বাক্য সংশোধন'] },
+          { title: 'অন্যান্য ব্যাকরণ', items: ['লিঙ্গ, বচন ও পুরুষ', 'কাল ও ক্রিয়ার কাল', 'বিরামচিহ্ন ও যতি চিহ্ন', 'একই শব্দের বিভিন্ন অর্থ', 'শুদ্ধ প্রয়োগ ও অপপ্রয়োগ'] }
+        ]
+      },
+      {
+        title: 'শব্দভাণ্ডার ও প্রয়োগ',
+        subtopics: [
+          { title: 'শব্দার্থ', items: ['সমার্থক শব্দ', 'বিপরীতার্থক শব্দ', 'একই শব্দের একাধিক অর্থ', 'শব্দের অর্থ ও প্রয়োগ'] },
+          { title: 'বিশেষ শব্দ ও বাক্য', items: ['এক কথায় প্রকাশ', 'বাগধারা ও বাগবিধি', 'প্রবাদ-প্রবচন', 'পারিভাষিক শব্দ', 'শব্দজোড় ও সমোচ্চারিত শব্দ'] }
+        ]
+      },
+      {
+        title: 'বাংলা সাহিত্যের ইতিহাস',
+        subtopics: [
+          { title: 'প্রাচীন যুগ', items: ['বাংলা সাহিত্যের যুগবিভাগ', 'চর্যাপদ: আবিষ্কার, ভাষা ও কবি', 'চর্যাপদের পদকর্তা ও বিষয়বস্তু', 'প্রাচীন যুগের সাহিত্যিক বৈশিষ্ট্য'] },
+          { title: 'মধ্যযুগ', items: ['শ্রীকৃষ্ণকীর্তন কাব্য', 'মঙ্গলকাব্য ও এর শাখা', 'বৈষ্ণব পদাবলি', 'অনুবাদ সাহিত্য', 'মুসলিম সাহিত্য ও পুঁথিসাহিত্য', 'আরাকান রাজসভা ও বাংলা সাহিত্য'] },
+          { title: 'আধুনিক যুগ', items: ['ফোর্ট উইলিয়াম কলেজ ও বাংলা গদ্য', 'ঈশ্বরচন্দ্র বিদ্যাসাগর ও গদ্যচর্চা', 'বাংলা নবজাগরণ', 'উনিশ শতকের কবিতা, উপন্যাস ও নাটক', 'রবীন্দ্রযুগ ও নজরুলযুগ', 'আধুনিক ও সমকালীন সাহিত্য'] }
+        ]
+      },
+      {
+        title: 'সাহিত্যিক ও সাহিত্যকর্ম',
+        subtopics: [
+          { title: 'প্রধান কবি ও সাহিত্যিক', items: ['মাইকেল মধুসূদন দত্ত', 'বঙ্কিমচন্দ্র চট্টোপাধ্যায়', 'রবীন্দ্রনাথ ঠাকুর', 'কাজী নজরুল ইসলাম', 'জীবনানন্দ দাশ', 'জসীমউদ্দীন', 'সুকান্ত ভট্টাচার্য', 'শামসুর রাহমান ও সমকালীন কবি'] },
+          { title: 'উপন্যাস, গল্প ও নাটক', items: ['প্রধান ঔপন্যাসিক ও তাঁদের রচনা', 'প্রধান ছোটগল্পকার ও গল্প', 'নাট্যকার ও তাঁদের নাটক', 'প্রবন্ধ, ভ্রমণকাহিনি ও আত্মজীবনী'] },
+          { title: 'সাহিত্য বিষয়ক তথ্য', items: ['লেখকের ছদ্মনাম ও উপাধি', 'সাহিত্য পুরস্কার ও সম্মাননা', 'সাহিত্য পত্রিকা ও সাময়িকী', 'প্রথম প্রকাশিত গ্রন্থ ও গুরুত্বপূর্ণ সাহিত্যকর্ম', 'মুক্তিযুদ্ধ ও ভাষা আন্দোলনভিত্তিক সাহিত্য'] }
+        ]
+      }
     ]
   },
   {
-    id: 'english', title: 'English', bn: 'ইংরেজি ভাষা ও সাহিত্য', icon: 'En', color: 'purple',
-    description: 'Grammar, vocabulary, literature and writing.',
+    id: 'english',
+    title: 'English',
+    bn: 'ইংরেজি ভাষা ও সাহিত্য',
+    icon: 'En',
+    color: 'purple',
+    description: 'English grammar, vocabulary, literature and comprehension.',
     topics: [
-      ['Grammar', ['Parts of Speech', 'Noun, Pronoun, Adjective, Verb and Adverb', 'Tense, Voice and Narration', 'Subject-Verb Agreement', 'Article, Preposition and Conjunction', 'Right Form of Verbs', 'Gerund, Participle and Infinitive', 'Clause, Phrase and Sentence Transformation', 'Conditionals, Modifiers and Parallelism', 'Correction, Punctuation and Sentence Completion']],
-      ['Vocabulary', ['Synonyms and Antonyms', 'Idioms and Phrases', 'One-word Substitution', 'Spelling and Common Errors', 'Appropriate Prepositions', 'Analogy and Word Meaning']],
-      ['Reading and Writing', ['Reading Comprehension', 'Translation: Bangla to English and English to Bangla', 'Precis and Summary', 'Paragraph, Essay and Report', 'Formal Letter and Application']],
-      ['English Literature', ['Literary Periods and Major Movements', 'Poets, Authors and Dramatists', 'Major Works and Characters', 'Literary Terms and Awards']]
+      {
+        title: 'Parts of Speech and Word Classes',
+        subtopics: [
+          { title: 'Noun and Pronoun', items: ['Kinds of nouns', 'Countable and uncountable nouns', 'Gender, number and case', 'Personal, relative and demonstrative pronouns', 'Pronoun agreement'] },
+          { title: 'Adjective and Adverb', items: ['Kinds and degrees of adjectives', 'Comparison of adjectives', 'Kinds of adverbs', 'Position and use of adverbs'] },
+          { title: 'Verb and Other Parts of Speech', items: ['Main and auxiliary verbs', 'Transitive and intransitive verbs', 'Finite and non-finite verbs', 'Prepositions and conjunctions', 'Interjections and articles'] }
+        ]
+      },
+      {
+        title: 'Tense, Verb and Agreement',
+        subtopics: [
+          { title: 'Tense', items: ['Present, past and future tense', 'Indefinite, continuous, perfect and perfect continuous', 'Sequence of tenses', 'Appropriate tense selection'] },
+          { title: 'Right Form of Verbs', items: ['Subject and verb relationship', 'Verb after modal auxiliaries', 'Verb after prepositions and conjunctions', 'Gerund and infinitive after verbs', 'Conditional verb forms'] },
+          { title: 'Subject-Verb Agreement', items: ['Singular and plural subjects', 'Agreement with collective nouns', 'Either-or and neither-nor structures', 'Indefinite pronouns and agreement'] },
+          { title: 'Voice and Narration', items: ['Active and passive voice', 'Voice change in different tenses', 'Imperative and interrogative voice', 'Direct and indirect speech', 'Reporting verbs and tense changes'] }
+        ]
+      },
+      {
+        title: 'Sentence Structure and Transformation',
+        subtopics: [
+          { title: 'Phrase and Clause', items: ['Noun, adjective and adverb phrases', 'Main and subordinate clauses', 'Noun, adjective and adverb clauses', 'Finite and non-finite clauses'] },
+          { title: 'Sentence Classification', items: ['Assertive, interrogative and imperative', 'Exclamatory and optative sentences', 'Simple, compound and complex sentences'] },
+          { title: 'Sentence Transformation', items: ['Affirmative and negative', 'Active and passive', 'Degree transformation', 'Simple, complex and compound conversion', 'Too...to, so...that and unless structures'] },
+          { title: 'Special Structures', items: ['Conditional sentences', 'Inversion and emphasis', 'Cleft sentences', 'Parallelism and modifiers', 'Punctuation and capitalization'] }
+        ]
+      },
+      {
+        title: 'Articles, Prepositions and Vocabulary',
+        subtopics: [
+          { title: 'Articles and Determiners', items: ['Definite and indefinite articles', 'Zero article', 'Use of some, any, much, many and few', 'Determiners and quantifiers'] },
+          { title: 'Prepositions', items: ['Prepositions of time and place', 'Prepositions after adjectives and verbs', 'Appropriate prepositions', 'Phrasal verbs'] },
+          { title: 'Vocabulary', items: ['Synonyms and antonyms', 'Idioms and phrases', 'One-word substitution', 'Spelling and commonly confused words', 'Analogy and word relationships'] }
+        ]
+      },
+      {
+        title: 'Reading and Writing Skills',
+        subtopics: [
+          { title: 'Reading Comprehension', items: ['Main idea and supporting details', 'Inference and interpretation', 'Vocabulary in context', 'Author’s tone and purpose'] },
+          { title: 'Writing', items: ['Paragraph and essay writing', 'Precis and summary writing', 'Formal letters and applications', 'Report writing', 'Translation between Bangla and English'] }
+        ]
+      },
+      {
+        title: 'English Literature',
+        subtopics: [
+          { title: 'Literary Periods', items: ['Old and Middle English periods', 'Renaissance and Elizabethan age', 'Neoclassical and Romantic periods', 'Victorian age', 'Modern and Postmodern literature'] },
+          { title: 'Poets and Writers', items: ['Geoffrey Chaucer and William Shakespeare', 'John Milton and William Wordsworth', 'S. T. Coleridge and John Keats', 'Charles Dickens and Jane Austen', 'T. S. Eliot, George Bernard Shaw and major modern writers'] },
+          { title: 'Literary Terms and Works', items: ['Drama, tragedy and comedy', 'Epic, lyric, sonnet and ode', 'Novel, novella and short story', 'Figures of speech and literary devices', 'Major works, characters and literary awards'] }
+        ]
+      }
     ]
   },
   {
-    id: 'math', title: 'Mathematics', bn: 'গাণিতিক যুক্তি', icon: '∑', color: 'green',
-    description: 'Arithmetic, algebra, geometry and practical problem solving.',
+    id: 'math',
+    title: 'Mathematics',
+    bn: 'গাণিতিক যুক্তি',
+    icon: '∑',
+    color: 'green',
+    description: 'Arithmetic, algebra, geometry and quantitative reasoning.',
     topics: [
-      ['Arithmetic', ['Number system, LCM and GCD', 'Fraction, decimal and simplification', 'Ratio, proportion and variation', 'Percentage', 'Profit, loss and discount', 'Average and mixture', 'Simple and compound interest', 'Time and work; pipes and cisterns', 'Speed, time and distance; trains and boats', 'Age, partnership and unitary method']],
-      ['Algebra', ['Algebraic expressions and identities', 'Linear equations and simultaneous equations', 'Quadratic equations', 'Indices, surds and logarithms', 'Sequences and series', 'Inequalities and functions']],
-      ['Geometry and Mensuration', ['Lines, angles and triangles', 'Quadrilaterals and polygons', 'Circle and related theorems', 'Perimeter, area and volume', 'Surface area of 3D figures']],
-      ['Statistics and Probability', ['Data, tables and graphs', 'Mean, median and mode', 'Range and basic dispersion', 'Basic probability and counting']]
+      {
+        title: 'Arithmetic',
+        subtopics: [
+          { title: 'Number System', items: ['Natural, whole, integer and rational numbers', 'Prime, composite and co-prime numbers', 'Divisibility rules', 'LCM and GCD', 'Remainder and unit digit'] },
+          { title: 'Fractions and Decimals', items: ['Common and decimal fractions', 'Fraction comparison and simplification', 'Recurring decimals', 'BODMAS and approximation'] },
+          { title: 'Ratio, Proportion and Percentage', items: ['Ratio and proportion', 'Direct and inverse variation', 'Percentage increase and decrease', 'Successive percentage'] },
+          { title: 'Commercial Arithmetic', items: ['Profit, loss and discount', 'Simple and compound interest', 'Commission and partnership', 'Average and weighted average', 'Mixture and alligation'] },
+          { title: 'Time and Work', items: ['Work rate and combined work', 'Efficiency and wages', 'Pipes and cisterns'] },
+          { title: 'Speed, Time and Distance', items: ['Relative speed', 'Train problems', 'Boats and streams', 'Race and circular motion'] },
+          { title: 'Other Arithmetic', items: ['Age-related problems', 'Unitary method', 'Problems on numbers', 'Calendar and clock basics'] }
+        ]
+      },
+      {
+        title: 'Algebra',
+        subtopics: [
+          { title: 'Algebraic Expressions', items: ['Variables, constants and coefficients', 'Algebraic identities', 'Factorization', 'Simplification of expressions'] },
+          { title: 'Equations', items: ['Linear equations in one variable', 'Simultaneous linear equations', 'Quadratic equations', 'Roots and discriminant', 'Word problems using equations'] },
+          { title: 'Indices, Surds and Logarithms', items: ['Laws of indices', 'Surds and rationalization', 'Logarithmic laws', 'Exponential equations'] },
+          { title: 'Sequences and Functions', items: ['Arithmetic progression', 'Geometric progression', 'Patterns and series', 'Functions and graphs', 'Inequalities'] }
+        ]
+      },
+      {
+        title: 'Geometry and Mensuration',
+        subtopics: [
+          { title: 'Basic Geometry', items: ['Points, lines and angles', 'Parallel and perpendicular lines', 'Properties of triangles', 'Congruence and similarity'] },
+          { title: 'Plane Figures', items: ['Quadrilaterals and polygons', 'Circle, chord, tangent and arc', 'Angles in a circle', 'Geometrical theorems'] },
+          { title: 'Mensuration', items: ['Perimeter and area of plane figures', 'Area of triangle and quadrilateral', 'Circumference and area of circle', 'Volume and surface area of solids', 'Cube, cuboid, cylinder, cone and sphere'] }
+        ]
+      },
+      {
+        title: 'Statistics and Probability',
+        subtopics: [
+          { title: 'Statistics', items: ['Data collection and classification', 'Frequency distribution and tables', 'Bar charts, pie charts and graphs', 'Mean, median and mode', 'Range and basic dispersion'] },
+          { title: 'Probability and Counting', items: ['Basic probability concepts', 'Sample space and events', 'Fundamental counting principle', 'Permutations and combinations (basic)'] }
+        ]
+      }
     ]
   },
   {
-    id: 'mental', title: 'Mental Ability', bn: 'মানসিক দক্ষতা ও বিশ্লেষণী ক্ষমতা', icon: '◇', color: 'orange',
+    id: 'mental',
+    title: 'Mental Ability',
+    bn: 'মানসিক দক্ষতা ও বিশ্লেষণী ক্ষমতা',
+    icon: '◇',
+    color: 'orange',
     description: 'Verbal, numerical, analytical and non-verbal reasoning.',
     topics: [
-      ['Verbal Reasoning', ['Word and letter series', 'Analogy and classification', 'Coding-decoding', 'Direction and distance', 'Blood relations', 'Ranking and order', 'Statement and conclusion', 'Syllogism and logical deduction']],
-      ['Numerical Reasoning', ['Number series', 'Missing numbers', 'Mathematical operations', 'Data interpretation', 'Basic quantitative comparison']],
-      ['Analytical and Non-verbal Reasoning', ['Arrangement and scheduling', 'Pattern and figure series', 'Mirror and water images', 'Paper folding and cutting', 'Shape classification', 'Cause and effect']]
+      {
+        title: 'Verbal Reasoning',
+        subtopics: [
+          { title: 'Word and Letter Reasoning', items: ['Word analogy', 'Letter analogy', 'Classification and odd one out', 'Word formation and arrangement'] },
+          { title: 'Series and Coding', items: ['Letter series', 'Word series', 'Mixed series', 'Coding and decoding', 'Symbol substitution'] },
+          { title: 'Logical Reasoning', items: ['Statement and conclusion', 'Statement and assumption', 'Syllogism', 'Cause and effect', 'Course of action'] },
+          { title: 'Relationship and Direction', items: ['Blood relations', 'Direction and distance', 'Ranking and order', 'Calendar and clock reasoning'] }
+        ]
+      },
+      {
+        title: 'Numerical Reasoning',
+        subtopics: [
+          { title: 'Number Reasoning', items: ['Number series', 'Missing numbers', 'Number analogy', 'Mathematical operations', 'Numerical patterns'] },
+          { title: 'Quantitative Analysis', items: ['Basic arithmetic reasoning', 'Ratio and percentage reasoning', 'Age and time-based problems', 'Data interpretation', 'Tables, charts and graphs'] }
+        ]
+      },
+      {
+        title: 'Analytical Reasoning',
+        subtopics: [
+          { title: 'Arrangement and Puzzle', items: ['Linear arrangement', 'Circular arrangement', 'Order and ranking puzzles', 'Scheduling and grouping', 'Selection and distribution'] },
+          { title: 'Critical Thinking', items: ['Logical deduction', 'Inference and assumptions', 'Strengthening and weakening arguments', 'Decision making', 'Analytical problem solving'] }
+        ]
+      },
+      {
+        title: 'Non-verbal Reasoning',
+        subtopics: [
+          { title: 'Figure and Pattern', items: ['Figure series', 'Pattern completion', 'Mirror images', 'Water images', 'Embedded figures'] },
+          { title: 'Spatial Reasoning', items: ['Paper folding and cutting', 'Cubes and dice', 'Shape classification', 'Rotation and reflection', 'Visual analogy'] }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'bangladesh',
+    title: 'Bangladesh Affairs',
+    bn: 'বাংলাদেশ বিষয়াবলি',
+    icon: 'BD',
+    color: 'red',
+    description: 'বাংলাদেশের ইতিহাস, সংবিধান, অর্থনীতি, সমাজ ও প্রশাসন।',
+    topics: [
+      {
+        title: 'প্রাচীন বাংলার ইতিহাস',
+        subtopics: [
+          { title: 'প্রাচীন জনপদ ও রাজবংশ', items: ['পুণ্ড্র, বঙ্গ, গৌড়, সমতট ও হরিকেল', 'মৌর্য ও গুপ্ত শাসন', 'শশাঙ্ক ও গৌড় রাজ্য', 'পাল বংশ ও সেন বংশ'] },
+          { title: 'প্রত্নতাত্ত্বিক ঐতিহ্য', items: ['মহাস্থানগড়', 'পাহাড়পুর বৌদ্ধবিহার', 'ময়নামতি ও শালবন বিহার', 'প্রাচীন মুদ্রা, শিলালিপি ও স্থাপত্য'] }
+        ]
+      },
+      {
+        title: 'মধ্যযুগ ও ঔপনিবেশিক শাসন',
+        subtopics: [
+          { title: 'মুসলিম শাসন ও সুলতানি আমল', items: ['বাংলায় মুসলিম শাসনের সূচনা', 'স্বাধীন সুলতানি আমল', 'ইলিয়াস শাহী ও হোসেন শাহী বংশ', 'মুঘল শাসন ও সুবাহ বাংলা'] },
+          { title: 'ব্রিটিশ শাসন', items: ['পলাশীর যুদ্ধ ও বক্সারের যুদ্ধ', 'চিরস্থায়ী বন্দোবস্ত', 'ফকির-সন্ন্যাসী বিদ্রোহ', 'ফরায়েজি আন্দোলন ও তিতুমীর', 'সিপাহি বিদ্রোহ', 'বঙ্গভঙ্গ ১৯০৫ ও বঙ্গভঙ্গ রদ'] },
+          { title: 'রাজনৈতিক ও সামাজিক আন্দোলন', items: ['ব্রিটিশবিরোধী আন্দোলন', 'স্বদেশি আন্দোলন', 'কৃষক ও শ্রমিক আন্দোলন', 'লাহোর প্রস্তাব ১৯৪০', 'ভারত বিভাগ ১৯৪৭'] }
+        ]
+      },
+      {
+        title: 'ভাষা আন্দোলন ও স্বাধীনতা সংগ্রাম',
+        subtopics: [
+          { title: 'ভাষা আন্দোলন', items: ['রাষ্ট্রভাষা বিতর্ক', 'ভাষা আন্দোলনের পটভূমি', '২১ ফেব্রুয়ারি ১৯৫২', 'শহিদ ও ভাষাসংগ্রামী', 'রাষ্ট্রভাষা হিসেবে বাংলার স্বীকৃতি'] },
+          { title: 'স্বাধিকার আন্দোলন', items: ['যুক্তফ্রন্ট নির্বাচন ১৯৫৪', 'সামরিক শাসন ১৯৫৮', 'ছয় দফা আন্দোলন ১৯৬৬', 'আগরতলা মামলা', 'ঊনসত্তরের গণঅভ্যুত্থান', '১৯৭০ সালের সাধারণ নির্বাচন'] },
+          { title: 'মুক্তিযুদ্ধ ১৯৭১', items: ['৭ মার্চের ঐতিহাসিক ভাষণ', 'অপারেশন সার্চলাইট ও ২৫ মার্চ', 'স্বাধীনতার ঘোষণা', 'মুজিবনগর সরকার', 'মুক্তিযুদ্ধের সেক্টর ও সেক্টর কমান্ডার', 'বীরশ্রেষ্ঠ ও খেতাবপ্রাপ্ত মুক্তিযোদ্ধা', 'যুদ্ধকালীন আন্তর্জাতিক ভূমিকা', '১৬ ডিসেম্বর বিজয়'] },
+          { title: 'স্বাধীন বাংলাদেশ', items: ['সংবিধান প্রণয়ন ও কার্যকর', 'যুদ্ধবিধ্বস্ত দেশ পুনর্গঠন', 'রাষ্ট্রপতি ও সরকারব্যবস্থার পরিবর্তন', 'গুরুত্বপূর্ণ জাতীয় রাজনৈতিক ঘটনা'] }
+        ]
+      },
+      {
+        title: 'বাংলাদেশের সংবিধান ও রাষ্ট্রব্যবস্থা',
+        subtopics: [
+          { title: 'সংবিধানের ইতিহাস ও বৈশিষ্ট্য', items: ['সংবিধান প্রণয়ন কমিটি', 'গণপরিষদ ও সংবিধান গৃহীত হওয়ার তারিখ', 'সংবিধানের প্রস্তাবনা', 'সংবিধানের বৈশিষ্ট্য ও সংশোধনী'] },
+          { title: 'রাষ্ট্র পরিচালনার মূলনীতি ও অধিকার', items: ['জাতীয়তাবাদ, সমাজতন্ত্র, গণতন্ত্র ও ধর্মনিরপেক্ষতা', 'মৌলিক অধিকার', 'রাষ্ট্র পরিচালনার মূলনীতি', 'নাগরিকের মৌলিক কর্তব্য'] },
+          { title: 'রাষ্ট্রের অঙ্গ', items: ['আইন বিভাগ ও জাতীয় সংসদ', 'নির্বাহী বিভাগ ও মন্ত্রিসভা', 'রাষ্ট্রপতি ও প্রধানমন্ত্রীর দায়িত্ব', 'বিচার বিভাগ ও সুপ্রিম কোর্ট', 'সংবিধান সংশোধন পদ্ধতি'] },
+          { title: 'সাংবিধানিক ও স্বায়ত্তশাসিত প্রতিষ্ঠান', items: ['নির্বাচন কমিশন', 'সরকারি কর্ম কমিশন', 'মহাহিসাব নিরীক্ষক ও নিয়ন্ত্রক', 'অ্যাটর্নি জেনারেল', 'দুর্নীতি দমন কমিশন ও অন্যান্য প্রতিষ্ঠান'] }
+        ]
+      },
+      {
+        title: 'বাংলাদেশের ভূগোল ও পরিবেশ',
+        subtopics: [
+          { title: 'ভৌগোলিক পরিচিতি', items: ['অবস্থান, আয়তন ও সীমানা', 'বিভাগ, জেলা ও উপজেলা', 'স্থলবন্দর ও সমুদ্রবন্দর', 'দ্বীপ, চর ও উপকূলীয় অঞ্চল'] },
+          { title: 'নদ-নদী ও প্রাকৃতিক সম্পদ', items: ['প্রধান নদ-নদী ও নদীপ্রণালি', 'পদ্মা, মেঘনা, যমুনা ও ব্রহ্মপুত্র', 'হাওর, বিল ও জলাভূমি', 'খনিজ ও জ্বালানি সম্পদ', 'বন, পাহাড় ও জীববৈচিত্র্য'] },
+          { title: 'জলবায়ু ও দুর্যোগ', items: ['ঋতুবৈচিত্র্য ও জলবায়ু', 'ঘূর্ণিঝড় ও জলোচ্ছ্বাস', 'বন্যা, খরা ও নদীভাঙন', 'ভূমিকম্প ও ভূমিধস', 'জলবায়ু পরিবর্তনের প্রভাব'] }
+        ]
+      },
+      {
+        title: 'বাংলাদেশের অর্থনীতি ও উন্নয়ন',
+        subtopics: [
+          { title: 'অর্থনৈতিক কাঠামো', items: ['GDP, GNI ও মাথাপিছু আয়', 'কৃষি, শিল্প ও সেবা খাত', 'জাতীয় আয় ও অর্থনৈতিক প্রবৃদ্ধি', 'দারিদ্র্য, বেকারত্ব ও বৈষম্য'] },
+          { title: 'বাজেট ও আর্থিক ব্যবস্থা', items: ['জাতীয় বাজেট ও বাজেটের ধরন', 'রাজস্ব, কর ও ভ্যাট', 'সরকারি ব্যয় ও ঋণ', 'বাংলাদেশ ব্যাংক ও মুদ্রানীতি'] },
+          { title: 'বাণিজ্য ও উন্নয়ন', items: ['রপ্তানি ও আমদানি', 'তৈরি পোশাক শিল্প', 'প্রবাসী আয় ও রেমিট্যান্স', 'বৈদেশিক বিনিয়োগ ও বৈদেশিক সাহায্য', 'পঞ্চবার্ষিক পরিকল্পনা ও প্রেক্ষিত পরিকল্পনা', 'SDG ও উন্নয়ন সূচক'] }
+        ]
+      },
+      {
+        title: 'সমাজ, সংস্কৃতি ও জাতীয় বিষয়াবলি',
+        subtopics: [
+          { title: 'জনসংখ্যা ও সমাজ', items: ['জনশুমারি ও জনসংখ্যার বৈশিষ্ট্য', 'জাতিগোষ্ঠী ও ক্ষুদ্র নৃগোষ্ঠী', 'শিক্ষা ও স্বাস্থ্যব্যবস্থা', 'নারী উন্নয়ন ও সামাজিক সুরক্ষা'] },
+          { title: 'সংস্কৃতি ও ঐতিহ্য', items: ['লোকসংস্কৃতি ও লোকসাহিত্য', 'উৎসব, ঐতিহ্য ও প্রত্নসম্পদ', 'জাতীয় সংগীত, পতাকা ও প্রতীক', 'জাতীয় দিবস ও গুরুত্বপূর্ণ তারিখ'] },
+          { title: 'প্রশাসন ও সাম্প্রতিক বিষয়', items: ['স্থানীয় সরকারব্যবস্থা', 'বিভিন্ন মন্ত্রণালয় ও অধিদপ্তর', 'গুরুত্বপূর্ণ জাতীয় প্রতিষ্ঠান', 'অবকাঠামো ও মেগা প্রকল্প', 'সাম্প্রতিক জাতীয় ঘটনা ও তথ্যের তারিখ'] }
+        ]
+      }
     ]
   },
   {
-    id: 'bangladesh', title: 'Bangladesh Affairs', bn: 'বাংলাদেশ বিষয়াবলি', icon: 'BD', color: 'red',
-    description: 'History, constitution, geography, economy and governance.',
+    id: 'international',
+    title: 'International Affairs',
+    bn: 'আন্তর্জাতিক বিষয়াবলি',
+    icon: '◎',
+    color: 'cyan',
+    description: 'বিশ্ব রাজনীতি, আন্তর্জাতিক সংস্থা, কূটনীতি ও বৈশ্বিক অর্থনীতি।',
     topics: [
-      ['History and Heritage', ['Ancient Bengal and archaeological heritage', 'Sultanate and Mughal Bengal', 'British rule and reform movements', 'Language Movement 1952', 'Six-Point Movement and mass uprisings', 'Liberation War 1971: background, sectors and events', 'Post-independence history and national milestones']],
-      ['Constitution and Government', ['Constitutional history and key features', 'Fundamental principles and fundamental rights', 'State organs and separation of powers', 'President, Prime Minister and Cabinet', 'Parliament, law-making and elections', 'Judiciary and constitutional bodies', 'Local government and public administration']],
-      ['Geography, Society and Culture', ['Location, boundaries and administrative divisions', 'Rivers, landforms and natural resources', 'Climate, population and demographic indicators', 'Ethnic communities, languages and cultural heritage', 'Education, health and social development']],
-      ['Economy and Development', ['Economic sectors and national income', 'Budget, revenue and public expenditure', 'Trade, exports, imports and remittances', 'Agriculture, industry and services', 'Development plans, poverty and SDGs', 'Banking, monetary policy and financial inclusion']],
-      ['National and Current Affairs', ['National institutions and important offices', 'National awards, days and events', 'Infrastructure and mega projects', 'Recent national developments: source and date-based notes']]
+      {
+        title: 'বিশ্বের ভৌগোলিক ও রাজনৈতিক পরিচিতি',
+        subtopics: [
+          { title: 'দেশ, রাজধানী ও মুদ্রা', items: ['বিশ্বের দেশ ও রাজধানী', 'দেশভিত্তিক মুদ্রা', 'দেশের সরকারি ভাষা', 'রাষ্ট্রের নাম ও পরিবর্তন'] },
+          { title: 'মহাদেশ ও অঞ্চল', items: ['এশিয়া, ইউরোপ, আফ্রিকা, আমেরিকা ও ওশেনিয়া', 'মধ্যপ্রাচ্য ও উপসাগরীয় অঞ্চল', 'দক্ষিণ এশিয়া ও দক্ষিণ-পূর্ব এশিয়া', 'গুরুত্বপূর্ণ প্রণালি, খাল ও সমুদ্র'] },
+          { title: 'বিশ্ব ভূরাজনীতি', items: ['সীমান্ত ও বিরোধপূর্ণ অঞ্চল', 'গুরুত্বপূর্ণ দ্বীপ ও উপদ্বীপ', 'বিশ্বের প্রধান পর্বত, নদী ও মরুভূমি', 'কৌশলগত অঞ্চল ও সামুদ্রিক পথ'] }
+        ]
+      },
+      {
+        title: 'জাতিসংঘ ও এর অঙ্গসংস্থা',
+        subtopics: [
+          { title: 'জাতিসংঘের মৌলিক পরিচিতি', items: ['প্রতিষ্ঠার পটভূমি ও সনদ', 'সদস্যপদ ও সদর দপ্তর', 'জাতিসংঘের উদ্দেশ্য ও নীতি', 'সাধারণ পরিষদ ও নিরাপত্তা পরিষদ'] },
+          { title: 'জাতিসংঘের প্রধান অঙ্গ', items: ['অর্থনৈতিক ও সামাজিক পরিষদ', 'আন্তর্জাতিক বিচার আদালত', 'সচিবালয় ও মহাসচিব', 'ট্রাস্টিশিপ কাউন্সিল'] },
+          { title: 'বিশেষায়িত সংস্থা ও কর্মসূচি', items: ['WHO, UNESCO ও UNICEF', 'FAO, ILO ও IAEA', 'IMF ও World Bank', 'UNDP, UNHCR, UNEP ও WFP', 'UN peacekeeping ও মানবিক কার্যক্রম'] },
+          { title: 'জাতিসংঘ ও বাংলাদেশ', items: ['জাতিসংঘে বাংলাদেশের সদস্যপদ', 'বাংলাদেশের শান্তিরক্ষা কার্যক্রম', 'বাংলাদেশ ও জাতিসংঘের গুরুত্বপূর্ণ ভূমিকা'] }
+        ]
+      },
+      {
+        title: 'আন্তর্জাতিক ও আঞ্চলিক সংস্থা',
+        subtopics: [
+          { title: 'বিশ্বব্যাপী সংস্থা', items: ['বিশ্ব বাণিজ্য সংস্থা (WTO)', 'বিশ্বব্যাংক ও IMF', 'কমনওয়েলথ', 'OIC ও NAM', 'OECD ও G7/G20'] },
+          { title: 'আঞ্চলিক সংস্থা', items: ['SAARC ও BIMSTEC', 'ASEAN ও APEC', 'ইউরোপীয় ইউনিয়ন (EU)', 'আফ্রিকান ইউনিয়ন (AU)', 'আরব লীগ ও GCC'] },
+          { title: 'সংস্থাভিত্তিক তথ্য', items: ['প্রতিষ্ঠার সাল ও সদর দপ্তর', 'সদস্যদেশ ও উদ্দেশ্য', 'প্রধান ও মহাসচিব', 'সাম্প্রতিক সম্মেলন ও সিদ্ধান্ত'] }
+        ]
+      },
+      {
+        title: 'আন্তর্জাতিক আইন, চুক্তি ও কূটনীতি',
+        subtopics: [
+          { title: 'আন্তর্জাতিক আইন', items: ['আন্তর্জাতিক আইনের উৎস', 'আন্তর্জাতিক বিচারব্যবস্থা', 'সমুদ্র আইন ও UNCLOS', 'কূটনৈতিক ও কনস্যুলার সম্পর্ক'] },
+          { title: 'আন্তর্জাতিক চুক্তি', items: ['মানবাধিকার সনদ ও কনভেনশন', 'জেনেভা কনভেনশন', 'পারমাণবিক অস্ত্র বিস্তার রোধ চুক্তি', 'জলবায়ু চুক্তি ও প্যারিস চুক্তি', 'শরণার্থী ও অভিবাসনবিষয়ক কাঠামো'] },
+          { title: 'কূটনৈতিক সম্পর্ক', items: ['দ্বিপাক্ষিক ও বহুপাক্ষিক কূটনীতি', 'রাষ্ট্রদূত ও হাইকমিশনার', 'আন্তর্জাতিক সম্মেলন', 'শান্তি আলোচনা ও মধ্যস্থতা'] }
+        ]
+      },
+      {
+        title: 'বিশ্ব রাজনীতি ও আন্তর্জাতিক অর্থনীতি',
+        subtopics: [
+          { title: 'বিশ্ব রাজনীতি', items: ['শীতল যুদ্ধ ও পরবর্তী বিশ্বব্যবস্থা', 'আন্তর্জাতিক শক্তির ভারসাম্য', 'প্রধান রাজনৈতিক জোট ও সামরিক জোট', 'গুরুত্বপূর্ণ যুদ্ধ ও সংঘাত', 'শান্তিচুক্তি ও চলমান বিরোধ'] },
+          { title: 'বিশ্ব অর্থনীতি', items: ['আন্তর্জাতিক বাণিজ্য ও বিশ্বায়ন', 'বৈদেশিক মুদ্রা ও বিনিময় হার', 'জ্বালানি ও খাদ্য নিরাপত্তা', 'বিশ্ব অর্থনৈতিক সংকট ও মন্দা'] },
+          { title: 'বৈশ্বিক সূচক', items: ['মানব উন্নয়ন সূচক (HDI)', 'বিশ্ব ক্ষুধা ও দারিদ্র্য সূচক', 'দুর্নীতি ধারণা সূচক', 'গণতন্ত্র ও শান্তি সূচক', 'বিশ্ব অর্থনৈতিক প্রতিবেদন'] }
+        ]
+      },
+      {
+        title: 'বিশ্বের সাম্প্রতিক গুরুত্বপূর্ণ বিষয়',
+        subtopics: [
+          { title: 'বিজ্ঞান ও প্রযুক্তি', items: ['কৃত্রিম বুদ্ধিমত্তা ও ডিজিটাল প্রযুক্তি', 'মহাকাশ গবেষণা', 'নতুন আবিষ্কার ও উদ্ভাবন'] },
+          { title: 'পরিবেশ ও উন্নয়ন', items: ['জলবায়ু সম্মেলন ও COP', 'জীববৈচিত্র্য ও পরিবেশ সংরক্ষণ', 'SDG অগ্রগতি ও বৈশ্বিক উন্নয়ন'] },
+          { title: 'আন্তর্জাতিক ঘটনাবলি', items: ['সাম্প্রতিক নির্বাচন ও সরকার পরিবর্তন', 'আন্তর্জাতিক পুরস্কার', 'বিশ্ব সম্মেলন ও গুরুত্বপূর্ণ সিদ্ধান্ত', 'সাম্প্রতিক সংঘাত ও কূটনৈতিক অগ্রগতি'] }
+        ]
+      }
     ]
   },
   {
-    id: 'international', title: 'International Affairs', bn: 'আন্তর্জাতিক বিষয়াবলি', icon: '◎', color: 'cyan',
-    description: 'Global organizations, diplomacy, treaties and world affairs.',
+    id: 'geography',
+    title: 'Geography & Environment',
+    bn: 'ভূগোল, পরিবেশ ও দুর্যোগ ব্যবস্থাপনা',
+    icon: '◉',
+    color: 'lime',
+    description: 'প্রাকৃতিক ও মানবীয় ভূগোল, পরিবেশ ও দুর্যোগ ব্যবস্থাপনা।',
     topics: [
-      ['United Nations System', ['UN Charter and principal organs', 'General Assembly and Security Council', 'ECOSOC, ICJ and Secretariat', 'UN funds, programmes and specialized agencies', 'Peacekeeping, humanitarian work and reform']],
-      ['International and Regional Organizations', ['World Bank Group, IMF and WTO', 'Commonwealth, OIC and NAM', 'SAARC, ASEAN, BIMSTEC and EU', 'AU, Arab League and other regional bodies', 'Headquarters, membership, mandate and leadership (dated facts)']],
-      ['Treaties and Global Conventions', ['Climate agreements and COP process', 'Human rights declarations and conventions', 'Law of the Sea and international law', 'Arms control and non-proliferation treaties', 'Trade, migration and refugee frameworks']],
-      ['World Politics and Economy', ['Countries, capitals, currencies and strategic regions', 'Geopolitics and diplomatic relations', 'International trade and global institutions', 'Major conflicts and peace processes (date-based)', 'Global indices and development reports']],
-      ['Global Development', ['Sustainable Development Goals', 'Climate change and biodiversity', 'Global health and food security', 'Technology, energy and demographic trends']]
+      {
+        title: 'ভৌত ভূগোল',
+        subtopics: [
+          { title: 'পৃথিবীর গঠন ও ভূপ্রকৃতি', items: ['পৃথিবীর অভ্যন্তরীণ গঠন', 'ভূত্বক, ম্যান্টল ও কেন্দ্র', 'শিলা ও খনিজ', 'পর্বত, মালভূমি ও সমভূমি', 'ভূমিকম্প ও আগ্নেয়গিরি'] },
+          { title: 'বায়ুমণ্ডল ও জলবায়ু', items: ['বায়ুমণ্ডলের স্তর', 'তাপমাত্রা ও বায়ুচাপ', 'বায়ুপ্রবাহ ও মৌসুমি বায়ু', 'বৃষ্টিপাত ও জলবায়ুর শ্রেণিবিভাগ', 'আবহাওয়া ও জলবায়ুর পার্থক্য'] },
+          { title: 'জলমণ্ডল', items: ['সমুদ্র ও মহাসাগর', 'জোয়ার-ভাটা ও সমুদ্রস্রোত', 'নদী ও নদী অববাহিকা', 'জলচক্র ও ভূগর্ভস্থ পানি'] }
+        ]
+      },
+      {
+        title: 'মানব ও অর্থনৈতিক ভূগোল',
+        subtopics: [
+          { title: 'জনসংখ্যা ও বসতি', items: ['জনসংখ্যার বণ্টন ও ঘনত্ব', 'জনসংখ্যা বৃদ্ধি ও অভিবাসন', 'নগরায়ণ ও গ্রামীণ বসতি', 'জনমিতিক পরিবর্তন'] },
+          { title: 'অর্থনৈতিক ভূগোল', items: ['কৃষি ও কৃষিজ সম্পদ', 'শিল্প ও শিল্পাঞ্চল', 'খনিজ ও জ্বালানি সম্পদ', 'পরিবহন ও যোগাযোগ', 'বিশ্ব বাণিজ্য ও অর্থনৈতিক অঞ্চল'] },
+          { title: 'আঞ্চলিক ভূগোল', items: ['দক্ষিণ এশিয়ার ভূগোল', 'এশিয়া ও ইউরোপের গুরুত্বপূর্ণ অঞ্চল', 'আফ্রিকা ও আমেরিকার ভূগোল', 'বিশ্বের গুরুত্বপূর্ণ নদী, পর্বত ও মরুভূমি'] }
+        ]
+      },
+      {
+        title: 'পরিবেশ ও জলবায়ু পরিবর্তন',
+        subtopics: [
+          { title: 'পরিবেশের মৌলিক ধারণা', items: ['পরিবেশ ও বাস্তুতন্ত্র', 'খাদ্যশৃঙ্খল ও খাদ্যজাল', 'জীববৈচিত্র্য ও সংরক্ষণ', 'প্রাকৃতিক সম্পদের টেকসই ব্যবহার'] },
+          { title: 'পরিবেশ দূষণ', items: ['বায়ু, পানি ও মাটি দূষণ', 'শব্দ ও প্লাস্টিক দূষণ', 'বর্জ্য ব্যবস্থাপনা', 'দূষণের কারণ ও প্রতিকার'] },
+          { title: 'জলবায়ু পরিবর্তন', items: ['গ্রিনহাউস প্রভাব ও বৈশ্বিক উষ্ণায়ন', 'জলবায়ু পরিবর্তনের কারণ ও প্রভাব', 'অভিযোজন ও প্রশমন', 'আন্তর্জাতিক পরিবেশ চুক্তি', 'টেকসই উন্নয়ন ও পরিবেশনীতি'] }
+        ]
+      },
+      {
+        title: 'দুর্যোগ ব্যবস্থাপনা',
+        subtopics: [
+          { title: 'প্রাকৃতিক দুর্যোগ', items: ['বন্যা ও আকস্মিক বন্যা', 'ঘূর্ণিঝড় ও জলোচ্ছ্বাস', 'খরা ও তাপপ্রবাহ', 'ভূমিকম্প ও ভূমিধস', 'নদীভাঙন ও লবণাক্ততা'] },
+          { title: 'দুর্যোগ ব্যবস্থাপনার ধাপ', items: ['ঝুঁকি নিরূপণ ও প্রশমন', 'প্রস্তুতি ও আগাম সতর্কীকরণ', 'জরুরি সাড়া ও উদ্ধার', 'পুনর্বাসন ও পুনর্গঠন'] },
+          { title: 'প্রাতিষ্ঠানিক ও আন্তর্জাতিক কাঠামো', items: ['বাংলাদেশের দুর্যোগ ব্যবস্থাপনা প্রতিষ্ঠান', 'দুর্যোগ ব্যবস্থাপনা আইন ও নীতিমালা', 'Sendai Framework', 'আন্তর্জাতিক মানবিক সহায়তা'] }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'science',
+    title: 'General Science',
+    bn: 'সাধারণ বিজ্ঞান',
+    icon: '⚛',
+    color: 'teal',
+    description: 'পদার্থবিজ্ঞান, রসায়ন, জীববিজ্ঞান ও ব্যবহারিক বিজ্ঞান।',
+    topics: [
+      {
+        title: 'পদার্থবিজ্ঞান',
+        subtopics: [
+          { title: 'পরিমাপ ও একক', items: ['ভৌত রাশি ও পরিমাপ', 'মৌলিক ও লব্ধ একক', 'SI একক পদ্ধতি', 'স্কেলার ও ভেক্টর রাশি'] },
+          { title: 'গতি ও বল', items: ['দূরত্ব, সরণ, দ্রুতি ও বেগ', 'ত্বরণ ও গতির সূত্র', 'নিউটনের গতিসূত্র', 'মহাকর্ষ ও অভিকর্ষ', 'ভর, ওজন ও ঘর্ষণ'] },
+          { title: 'কাজ, শক্তি ও ক্ষমতা', items: ['কাজ ও ক্ষমতার ধারণা', 'গতিশক্তি ও বিভবশক্তি', 'শক্তির নিত্যতা সূত্র', 'শক্তির রূপান্তর'] },
+          { title: 'তাপ ও তাপগতিবিদ্যা', items: ['তাপ ও তাপমাত্রা', 'তাপ সঞ্চালন: পরিবহন, পরিচলন ও বিকিরণ', 'আপেক্ষিক তাপ ও সুপ্ততাপ', 'তাপীয় প্রসারণ', 'তাপগতিবিদ্যার সূত্র'] },
+          { title: 'আলো ও শব্দ', items: ['আলোর প্রতিফলন ও প্রতিসরণ', 'লেন্স ও দর্পণ', 'আলোর বর্ণালি', 'শব্দের উৎপত্তি ও বিস্তার', 'কম্পাঙ্ক, তরঙ্গদৈর্ঘ্য ও প্রতিধ্বনি'] },
+          { title: 'বিদ্যুৎ ও চুম্বকত্ব', items: ['বিদ্যুৎ প্রবাহ, বিভব ও রোধ', 'ওহমের সূত্র', 'সিরিজ ও প্যারালাল বর্তনী', 'চুম্বক ও তড়িৎচুম্বক', 'জেনারেটর, মোটর ও ট্রান্সফরমার'] },
+          { title: 'আধুনিক পদার্থবিজ্ঞান', items: ['পরমাণু ও নিউক্লিয়াস', 'তেজস্ক্রিয়তা', 'পারমাণবিক শক্তি', 'সেমিকন্ডাক্টর ও ইলেকট্রনিক্স'] }
+        ]
+      },
+      {
+        title: 'রসায়নবিজ্ঞান',
+        subtopics: [
+          { title: 'পরমাণু ও মৌল', items: ['পরমাণুর গঠন', 'প্রোটন, নিউট্রন ও ইলেকট্রন', 'পারমাণবিক ও ভরসংখ্যা', 'আইসোটোপ ও আইসোবার', 'পর্যায় সারণি ও পর্যায়বৃত্ত ধর্ম'] },
+          { title: 'রাসায়নিক বন্ধন ও বিক্রিয়া', items: ['আয়নিক ও সমযোজী বন্ধন', 'রাসায়নিক সংকেত ও সমীকরণ', 'জারণ ও বিজারণ', 'অনুঘটক ও বিক্রিয়ার গতি'] },
+          { title: 'অম্ল, ক্ষার ও লবণ', items: ['অম্ল ও ক্ষারের বৈশিষ্ট্য', 'pH স্কেল', 'নিরপেক্ষকরণ বিক্রিয়া', 'গুরুত্বপূর্ণ লবণ ও ব্যবহার'] },
+          { title: 'পদার্থ ও যৌগ', items: ['মৌল, যৌগ ও মিশ্রণ', 'ধাতু ও অধাতু', 'জৈব ও অজৈব যৌগ', 'কার্বন ও হাইড্রোকার্বন', 'পলিমার ও প্লাস্টিক'] },
+          { title: 'দৈনন্দিন রসায়ন', items: ['সাবান ও ডিটারজেন্ট', 'সার ও কীটনাশক', 'খাদ্য সংরক্ষণ', 'জ্বালানি ও দহন', 'পানি বিশুদ্ধকরণ'] }
+        ]
+      },
+      {
+        title: 'জীববিজ্ঞান',
+        subtopics: [
+          { title: 'কোষ ও টিস্যু', items: ['কোষের গঠন ও অঙ্গাণু', 'উদ্ভিদ ও প্রাণিকোষ', 'কোষ বিভাজন: মাইটোসিস ও মিয়োসিস', 'টিস্যু ও অঙ্গতন্ত্র'] },
+          { title: 'মানবদেহ ও শারীরবৃত্ত', items: ['পরিপাক ও পুষ্টি', 'রক্ত ও রক্তসংবহন', 'শ্বাসক্রিয়া ও গ্যাস বিনিময়', 'রেচন ও বৃক্ক', 'স্নায়ুতন্ত্র ও হরমোন', 'কঙ্কাল ও পেশিতন্ত্র', 'প্রজনন ও বংশগতি'] },
+          { title: 'জিনতত্ত্ব ও বিবর্তন', items: ['DNA, RNA ও জিন', 'ক্রোমোজোম ও বংশগতি', 'মেন্ডেলের সূত্র', 'বিবর্তন ও প্রাকৃতিক নির্বাচন'] },
+          { title: 'উদ্ভিদবিজ্ঞান', items: ['উদ্ভিদের অঙ্গ ও কাজ', 'সালোকসংশ্লেষণ', 'শ্বসন ও প্রস্বেদন', 'উদ্ভিদের প্রজনন ও পরাগায়ন'] },
+          { title: 'অণুজীব ও রোগ', items: ['ব্যাকটেরিয়া, ভাইরাস ও ছত্রাক', 'পরজীবী ও প্রোটোজোয়া', 'সংক্রামক ও অসংক্রামক রোগ', 'টিকা ও রোগ প্রতিরোধ', 'অ্যান্টিবায়োটিক ও জীবাণুনাশক'] }
+        ]
+      },
+      {
+        title: 'স্বাস্থ্য, পুষ্টি ও ব্যবহারিক বিজ্ঞান',
+        subtopics: [
+          { title: 'খাদ্য ও পুষ্টি', items: ['শর্করা, আমিষ ও স্নেহ', 'ভিটামিন ও খনিজ লবণ', 'পানির প্রয়োজনীয়তা', 'পুষ্টিহীনতা ও অভাবজনিত রোগ'] },
+          { title: 'জনস্বাস্থ্য', items: ['ব্যক্তিগত ও পরিবেশগত স্বাস্থ্যবিধি', 'বিশুদ্ধ পানি ও স্যানিটেশন', 'টিকাদান ও জনস্বাস্থ্য কর্মসূচি', 'প্রাথমিক চিকিৎসার সাধারণ ধারণা'] },
+          { title: 'বৈজ্ঞানিক আবিষ্কার', items: ['গুরুত্বপূর্ণ বিজ্ঞানী ও তাঁদের আবিষ্কার', 'বৈজ্ঞানিক যন্ত্রপাতি', 'মহাকাশ ও জ্যোতির্বিজ্ঞান', 'নবায়নযোগ্য জ্বালানি ও আধুনিক প্রযুক্তি'] }
+        ]
+      }
     ]
   },
   {
-    id: 'science', title: 'General Science', bn: 'সাধারণ বিজ্ঞান', icon: '⚛', color: 'teal',
-    description: 'Physics, chemistry, biology and everyday science.',
+    id: 'ict',
+    title: 'Computer & ICT',
+    bn: 'কম্পিউটার ও তথ্যপ্রযুক্তি',
+    icon: '⌘',
+    color: 'indigo',
+    description: 'কম্পিউটার, নেটওয়ার্ক, ডেটাবেজ, সাইবার নিরাপত্তা ও ডিজিটাল সেবা।',
     topics: [
-      ['Physics', ['Measurement and units', 'Motion, force and Newton’s laws', 'Work, energy and power', 'Heat, temperature and thermodynamics', 'Light, sound and waves', 'Electricity, magnetism and electronics']],
-      ['Chemistry', ['Structure of atom and periodic table', 'Elements, compounds and mixtures', 'Chemical bonds and reactions', 'Acids, bases and salts', 'Organic chemistry and polymers', 'Metals, non-metals and everyday chemicals']],
-      ['Biology', ['Cell, tissue and organ systems', 'Human physiology and nutrition', 'Genetics, DNA and evolution', 'Plant physiology and reproduction', 'Microorganisms and diseases', 'Ecology and biodiversity']],
-      ['Applied Science', ['Health, hygiene and public health', 'Food, vitamins and deficiency diseases', 'Scientific instruments and discoveries', 'Renewable energy and modern technology']]
+      {
+        title: 'কম্পিউটারের মৌলিক ধারণা',
+        subtopics: [
+          { title: 'কম্পিউটারের পরিচিতি', items: ['কম্পিউটারের সংজ্ঞা ও বৈশিষ্ট্য', 'কম্পিউটারের প্রজন্ম', 'কম্পিউটারের শ্রেণিবিভাগ', 'অ্যানালগ, ডিজিটাল ও হাইব্রিড কম্পিউটার'] },
+          { title: 'হার্ডওয়্যার ও সফটওয়্যার', items: ['CPU ও এর অংশ', 'মাদারবোর্ড ও প্রসেসর', 'ইনপুট ও আউটপুট ডিভাইস', 'RAM, ROM ও ক্যাশ মেমোরি', 'সিস্টেম ও অ্যাপ্লিকেশন সফটওয়্যার'] },
+          { title: 'ডেটা ও সংখ্যা পদ্ধতি', items: ['বিট, বাইট ও ডেটা একক', 'বাইনারি, অক্টাল, দশমিক ও হেক্সাডেসিমাল', 'সংখ্যা পদ্ধতির রূপান্তর', 'ASCII ও Unicode'] },
+          { title: 'অপারেটিং সিস্টেম', items: ['অপারেটিং সিস্টেমের কাজ', 'Windows, Linux, Android ও iOS', 'ফাইল ও ফোল্ডার ব্যবস্থাপনা', 'সফটওয়্যার ইনস্টলেশন ও আপডেট'] }
+        ]
+      },
+      {
+        title: 'কম্পিউটার নেটওয়ার্ক ও ইন্টারনেট',
+        subtopics: [
+          { title: 'নেটওয়ার্কের ধরন', items: ['LAN, MAN ও WAN', 'PAN ও WLAN', 'নেটওয়ার্ক টপোলজি', 'সার্ভার ও ক্লায়েন্ট'] },
+          { title: 'নেটওয়ার্ক ডিভাইস', items: ['মডেম, রাউটার ও সুইচ', 'হাব, ব্রিজ ও রিপিটার', 'নেটওয়ার্ক কার্ড ও অ্যাকসেস পয়েন্ট'] },
+          { title: 'ইন্টারনেট ও ওয়েব', items: ['ইন্টারনেট ও ইন্ট্রানেট', 'WWW, ওয়েবসাইট ও ওয়েবপেজ', 'ব্রাউজার ও সার্চ ইঞ্জিন', 'URL, IP ও DNS', 'HTTP, HTTPS ও FTP', 'ই-মেইল ও অনলাইন যোগাযোগ'] },
+          { title: 'ক্লাউড ও আধুনিক সেবা', items: ['ক্লাউড কম্পিউটিং', 'ডেটা সেন্টার', 'সামাজিক যোগাযোগমাধ্যম', 'ই-কমার্স ও ডিজিটাল লেনদেন'] }
+        ]
+      },
+      {
+        title: 'ডেটাবেজ ও প্রোগ্রামিং',
+        subtopics: [
+          { title: 'ডেটাবেজ', items: ['ডেটা ও তথ্যের পার্থক্য', 'ডেটাবেজ ম্যানেজমেন্ট সিস্টেম', 'টেবিল, রেকর্ড ও ফিল্ড', 'প্রাইমারি ও ফরেন কী', 'SQL-এর প্রাথমিক ধারণা'] },
+          { title: 'প্রোগ্রামিং', items: ['প্রোগ্রাম ও প্রোগ্রামিং ভাষা', 'মেশিন, অ্যাসেম্বলি ও উচ্চস্তরের ভাষা', 'অ্যালগরিদম ও ফ্লোচার্ট', 'ভেরিয়েবল ও ডেটা টাইপ', 'শর্ত, লুপ ও ফাংশন'] },
+          { title: 'অফিস অ্যাপ্লিকেশন', items: ['Word processing', 'Spreadsheet ও সূত্র', 'Presentation software', 'ডেটা বিশ্লেষণ ও চার্ট'] }
+        ]
+      },
+      {
+        title: 'সাইবার নিরাপত্তা ও ডিজিটাল প্রযুক্তি',
+        subtopics: [
+          { title: 'সাইবার নিরাপত্তার ধারণা', items: ['তথ্য নিরাপত্তা ও গোপনীয়তা', 'পাসওয়ার্ড ও বহুধাপ যাচাইকরণ', 'ম্যালওয়্যার, ভাইরাস ও র‍্যানসমওয়্যার', 'ফিশিং ও অনলাইন প্রতারণা', 'নিরাপদ ব্রাউজিং ও সাইবার সচেতনতা'] },
+          { title: 'ডিজিটাল নিরাপত্তা', items: ['এনক্রিপশন ও ডিক্রিপশন', 'ডিজিটাল স্বাক্ষর ও সার্টিফিকেট', 'ব্যাকআপ ও ডেটা সুরক্ষা', 'সাইবার অপরাধ ও আইনগত সচেতনতা'] },
+          { title: 'বাংলাদেশের ICT', items: ['ডিজিটাল বাংলাদেশ ধারণা', 'স্মার্ট বাংলাদেশ উদ্যোগ', 'ই-গভর্ন্যান্স ও ই-সেবা', 'জাতীয় তথ্য ও যোগাযোগ প্রযুক্তি নীতি', 'ডিজিটাল আর্থিক সেবা'] },
+          { title: 'উদীয়মান প্রযুক্তি', items: ['কৃত্রিম বুদ্ধিমত্তা (AI)', 'মেশিন লার্নিং', 'রোবটিক্স ও অটোমেশন', 'ইন্টারনেট অব থিংস (IoT)', 'ব্লকচেইন ও বিগ ডেটা'] }
+        ]
+      }
     ]
   },
   {
-    id: 'ict', title: 'Computer & ICT', bn: 'কম্পিউটার ও তথ্যপ্রযুক্তি', icon: '⌘', color: 'indigo',
-    description: 'Computer fundamentals, networks, cybersecurity and digital services.',
+    id: 'ethics',
+    title: 'Ethics & Good Governance',
+    bn: 'নৈতিকতা, মূল্যবোধ ও সুশাসন',
+    icon: '⚖',
+    color: 'gold',
+    description: 'নৈতিকতা, মূল্যবোধ, সততা, জবাবদিহি ও সুশাসন।',
     topics: [
-      ['Computer Fundamentals', ['Hardware and software', 'Input, output and storage devices', 'Number systems and data representation', 'Operating systems and application software', 'Database and information systems']],
-      ['Networks and Internet', ['LAN, WAN and network devices', 'Internet, web, browser and search', 'IP, DNS, URL and protocols', 'Cloud computing and web services']],
-      ['Cybersecurity and Digital Bangladesh', ['Privacy, authentication and safe browsing', 'Malware, phishing and cyber hygiene', 'Encryption and digital signatures', 'E-governance and public digital services', 'Digital economy and emerging technologies']],
-      ['Programming and Office Tools', ['Algorithms and flowcharts', 'Basic programming concepts', 'Word processing and spreadsheets', 'Presentation and data handling']]
+      {
+        title: 'নৈতিকতা ও মূল্যবোধ',
+        subtopics: [
+          { title: 'নৈতিকতার মৌলিক ধারণা', items: ['নৈতিকতা ও অনৈতিকতা', 'নৈতিকতা ও আইনের সম্পর্ক', 'ব্যক্তিগত ও সামাজিক নৈতিকতা', 'পেশাগত নৈতিকতা'] },
+          { title: 'মূল্যবোধ', items: ['মানবিক ও সামাজিক মূল্যবোধ', 'সততা, নিষ্ঠা ও দায়িত্ববোধ', 'সহনশীলতা ও পরমতসহিষ্ণুতা', 'সমতা, ন্যায়বিচার ও মানবিক মর্যাদা'] },
+          { title: 'নৈতিক সিদ্ধান্ত গ্রহণ', items: ['নৈতিক দ্বন্দ্ব ও সমাধান', 'নৈতিক যুক্তি ও বিবেচনা', 'স্বার্থের সংঘাত', 'ব্যক্তিগত ও প্রাতিষ্ঠানিক সততা'] }
+        ]
+      },
+      {
+        title: 'সুশাসন',
+        subtopics: [
+          { title: 'সুশাসনের ধারণা ও উপাদান', items: ['সুশাসনের সংজ্ঞা ও বৈশিষ্ট্য', 'আইনের শাসন', 'অংশগ্রহণ ও ঐকমত্য', 'স্বচ্ছতা ও জবাবদিহি', 'দক্ষতা ও কার্যকারিতা', 'অন্তর্ভুক্তি ও ন্যায়সংগততা'] },
+          { title: 'সুশাসনের প্রতিবন্ধকতা', items: ['দুর্নীতি ও স্বজনপ্রীতি', 'ক্ষমতার অপব্যবহার', 'প্রশাসনিক জটিলতা', 'রাজনৈতিক ও প্রাতিষ্ঠানিক দুর্বলতা'] },
+          { title: 'সুশাসন প্রতিষ্ঠার উপায়', items: ['দুর্নীতি প্রতিরোধ', 'সামাজিক জবাবদিহি', 'নাগরিক অংশগ্রহণ', 'প্রাতিষ্ঠানিক সংস্কার', 'তথ্য অধিকার ও স্বচ্ছতা'] }
+        ]
+      },
+      {
+        title: 'জনপ্রশাসন ও সরকারি সেবা',
+        subtopics: [
+          { title: 'বাংলাদেশের প্রশাসনিক কাঠামো', items: ['কেন্দ্রীয় প্রশাসন', 'বিভাগ, জেলা ও উপজেলা প্রশাসন', 'মন্ত্রণালয় ও অধিদপ্তর', 'স্থানীয় সরকার প্রতিষ্ঠান'] },
+          { title: 'জনপ্রশাসনের ধারণা', items: ['জনপ্রশাসনের প্রকৃতি ও পরিধি', 'আমলাতন্ত্র ও প্রশাসনিক কাঠামো', 'নীতি প্রণয়ন ও বাস্তবায়ন', 'সরকারি কর্মচারীর দায়িত্ব ও আচরণবিধি'] },
+          { title: 'নাগরিক সেবা ও অধিকার', items: ['নাগরিক সনদ', 'অভিযোগ প্রতিকার ব্যবস্থা', 'তথ্য অধিকার আইন', 'ই-গভর্ন্যান্স ও ডিজিটাল সেবা', 'সেবা প্রদান ও নাগরিক অংশগ্রহণ'] }
+        ]
+      }
+    ]
+  },
+
+  {
+    id: 'economics',
+    title: 'Economics',
+    bn: 'অর্থনীতি',
+    icon: '৳',
+    color: 'green',
+    description: 'Microeconomics, macroeconomics and Bangladesh economy.',
+    topics: [
+      {
+        title: 'অর্থনীতির মৌলিক ধারণা',
+        subtopics: [
+          { title: 'অর্থনীতির পরিচিতি', items: ['অর্থনীতির সংজ্ঞা, প্রকৃতি ও পরিধি', 'ব্যক্তি ও সামষ্টিক অর্থনীতি', 'দুষ্প্রাপ্যতা, অভাব ও নির্বাচন', 'সুযোগ ব্যয় ও উৎপাদন সম্ভাবনা রেখা'] },
+          { title: 'অর্থনৈতিক ব্যবস্থা', items: ['পুঁজিবাদী অর্থনীতি', 'সমাজতান্ত্রিক অর্থনীতি', 'মিশ্র অর্থনীতি', 'বাজার ও পরিকল্পিত অর্থনীতি'] },
+          { title: 'উৎপাদনের উপাদান', items: ['ভূমি, শ্রম, মূলধন ও সংগঠন', 'উৎপাদন, বণ্টন ও ভোগ', 'উৎপাদনশীলতা ও দক্ষতা'] }
+        ]
+      },
+      {
+        title: 'ব্যষ্টিক অর্থনীতি',
+        subtopics: [
+          { title: 'চাহিদা ও যোগান', items: ['চাহিদার সংজ্ঞা ও নির্ধারক', 'চাহিদার বিধি ও ব্যতিক্রম', 'যোগানের সংজ্ঞা ও নির্ধারক', 'যোগানের বিধি', 'বাজার ভারসাম্য ও ভারসাম্য মূল্য'] },
+          { title: 'স্থিতিস্থাপকতা', items: ['চাহিদার মূল্য স্থিতিস্থাপকতা', 'আয় স্থিতিস্থাপকতা', 'আড়াআড়ি স্থিতিস্থাপকতা', 'যোগানের স্থিতিস্থাপকতা'] },
+          { title: 'ভোক্তা ও উৎপাদন', items: ['উপযোগ ও প্রান্তিক উপযোগ', 'ক্রমহ্রাসমান প্রান্তিক উপযোগ বিধি', 'উদাসীনতা রেখা', 'উৎপাদন অপেক্ষক', 'ক্রমহ্রাসমান উৎপাদন বিধি'] },
+          { title: 'ব্যয় ও বাজার', items: ['স্থির ও পরিবর্তনশীল ব্যয়', 'গড় ও প্রান্তিক ব্যয়', 'পূর্ণ প্রতিযোগিতা', 'একচেটিয়া বাজার', 'অলিগোপলি ও একচেটিয়া প্রতিযোগিতা'] }
+        ]
+      },
+      {
+        title: 'সামষ্টিক অর্থনীতি',
+        subtopics: [
+          { title: 'জাতীয় আয়', items: ['GDP, GNP ও NNP', 'জাতীয় আয় পরিমাপের পদ্ধতি', 'নামমাত্র ও প্রকৃত GDP', 'মাথাপিছু আয় ও অর্থনৈতিক প্রবৃদ্ধি'] },
+          { title: 'ভোগ, সঞ্চয় ও বিনিয়োগ', items: ['ভোগ অপেক্ষক', 'সঞ্চয় ও বিনিয়োগ', 'প্রান্তিক ভোগ প্রবণতা', 'গুণক ও ত্বরক'] },
+          { title: 'মুদ্রা ও ব্যাংকিং', items: ['মুদ্রার সংজ্ঞা ও কার্যাবলি', 'অর্থের যোগান', 'বাণিজ্যিক ব্যাংকের ভূমিকা', 'কেন্দ্রীয় ব্যাংক ও ঋণ নিয়ন্ত্রণ'] },
+          { title: 'মুদ্রাস্ফীতি ও কর্মসংস্থান', items: ['মুদ্রাস্ফীতির কারণ ও প্রভাব', 'মুদ্রাসংকোচন', 'বেকারত্বের ধরন', 'ব্যবসায় চক্র ও অর্থনৈতিক মন্দা'] },
+          { title: 'রাজস্ব ও মুদ্রানীতি', items: ['রাজস্বনীতির উদ্দেশ্য', 'প্রত্যক্ষ ও পরোক্ষ কর', 'সরকারি আয় ও ব্যয়', 'মুদ্রানীতির উপকরণ'] }
+        ]
+      },
+      {
+        title: 'বাংলাদেশের অর্থনীতি',
+        subtopics: [
+          { title: 'অর্থনৈতিক কাঠামো', items: ['বাংলাদেশের অর্থনীতির বৈশিষ্ট্য', 'কৃষি, শিল্প ও সেবা খাত', 'GDP ও প্রবৃদ্ধি', 'দারিদ্র্য ও আয় বৈষম্য'] },
+          { title: 'উন্নয়ন ও পরিকল্পনা', items: ['উন্নয়ন পরিকল্পনা', 'পঞ্চবার্ষিক পরিকল্পনা', 'প্রেক্ষিত পরিকল্পনা', 'SDG ও অন্তর্ভুক্তিমূলক উন্নয়ন'] },
+          { title: 'বৈদেশিক খাত', items: ['রপ্তানি ও আমদানি', 'বাণিজ্য ভারসাম্য', 'Balance of Payments', 'রেমিট্যান্স ও বৈদেশিক মুদ্রার রিজার্ভ', 'বৈদেশিক বিনিয়োগ ও ঋণ'] },
+          { title: 'বাজেট ও আর্থিক খাত', items: ['জাতীয় বাজেট', 'রাজস্ব আয় ও সরকারি ব্যয়', 'কর ও ভ্যাট', 'বাংলাদেশ ব্যাংকের ভূমিকা', 'ব্যাংক ও আর্থিক প্রতিষ্ঠানের ভূমিকা'] }
+        ]
+      }
     ]
   },
   {
-    id: 'geography', title: 'Geography & Environment', bn: 'ভূগোল, পরিবেশ ও দুর্যোগ ব্যবস্থাপনা', icon: '◉', color: 'lime',
-    description: 'Physical and human geography, resources, climate and disaster response.',
+    id: 'banking',
+    title: 'Banking & Finance',
+    bn: 'ব্যাংকিং, ফিন্যান্স ও হিসাববিজ্ঞান',
+    icon: '৳',
+    color: 'navy',
+    description: 'Banking, finance, accounting and financial markets.',
     topics: [
-      ['Physical Geography', ['Earth structure and landforms', 'Atmosphere, weather and climate', 'Rivers, oceans and hydrological cycle', 'Soil, rocks and natural processes']],
-      ['Human and Economic Geography', ['Population and migration', 'Settlement and urbanization', 'Resources, agriculture and industry', 'Regional geography of South Asia and the world']],
-      ['Environment and Climate', ['Ecosystem and biodiversity', 'Pollution and waste management', 'Climate change, adaptation and mitigation', 'Environmental laws and global agreements']],
-      ['Disaster Management', ['Flood, cyclone, drought, earthquake and landslide', 'Risk reduction and early warning', 'Preparedness, response and recovery', 'Disaster management institutions']]
+      {
+        title: 'ব্যাংকিংয়ের মৌলিক ধারণা',
+        subtopics: [
+          { title: 'ব্যাংকের পরিচিতি', items: ['ব্যাংকের সংজ্ঞা ও কার্যাবলি', 'ব্যাংকের শ্রেণিবিভাগ', 'বাণিজ্যিক ও বিশেষায়িত ব্যাংক', 'কেন্দ্রীয় ব্যাংকের ভূমিকা'] },
+          { title: 'ব্যাংকিং কার্যক্রম', items: ['আমানত ও আমানতের ধরন', 'ঋণ ও অগ্রিম', 'চেক ও বিনিময় বিল', 'ব্যাংক হিসাব ও হিসাব পরিচালনা', 'ব্যাংকের গ্রাহকসেবা'] },
+          { title: 'আধুনিক ব্যাংকিং', items: ['মোবাইল ও এজেন্ট ব্যাংকিং', 'ইন্টারনেট ও ডিজিটাল ব্যাংকিং', 'কার্ড ও ইলেকট্রনিক পেমেন্ট', 'আর্থিক অন্তর্ভুক্তি'] }
+        ]
+      },
+      {
+        title: 'ফিন্যান্স ও আর্থিক বাজার',
+        subtopics: [
+          { title: 'ফিন্যান্সের মৌলিক ধারণা', items: ['ফিন্যান্সের সংজ্ঞা ও পরিধি', 'ব্যক্তিগত ও ব্যবসায়িক অর্থায়ন', 'অর্থের সময়মূল্য', 'বর্তমান ও ভবিষ্যৎ মূল্য'] },
+          { title: 'আর্থিক বাজার', items: ['মুদ্রাবাজার ও পুঁজিবাজার', 'প্রাথমিক ও দ্বিতীয় বাজার', 'শেয়ার ও বন্ড', 'স্টক এক্সচেঞ্জ', 'সিকিউরিটিজ ও বিনিয়োগ'] },
+          { title: 'ঝুঁকি ও ব্যবস্থাপনা', items: ['আর্থিক ঝুঁকির ধরন', 'ঝুঁকি ও মুনাফার সম্পর্ক', 'বিনিয়োগের মৌলিক ধারণা', 'বীমা ও ঝুঁকি হ্রাস'] },
+          { title: 'আন্তর্জাতিক ফিন্যান্স', items: ['বৈদেশিক মুদ্রা বিনিময়', 'বিনিময় হার', 'আন্তর্জাতিক ব্যাংকিং', 'Balance of Payments'] }
+        ]
+      },
+      {
+        title: 'হিসাববিজ্ঞান',
+        subtopics: [
+          { title: 'হিসাববিজ্ঞানের ভিত্তি', items: ['হিসাববিজ্ঞানের সংজ্ঞা ও উদ্দেশ্য', 'হিসাববিজ্ঞানের নীতি ও ধারণা', 'সম্পদ, দায় ও মালিকানা স্বত্ব', 'হিসাব সমীকরণ'] },
+          { title: 'হিসাবের বই', items: ['জাবেদা ও লেনদেন', 'খতিয়ান ও হিসাবের শ্রেণিবিভাগ', 'রেওয়ামিল', 'সমন্বয় ও সমাপনী দাখিলা'] },
+          { title: 'আর্থিক বিবরণী', items: ['আয় বিবরণী', 'আর্থিক অবস্থার বিবরণী', 'নগদ প্রবাহ বিবরণী', 'অবচয় ও মজুত পণ্য', 'ব্যাংক সমন্বয় বিবরণী'] },
+          { title: 'আর্থিক বিশ্লেষণ', items: ['তারল্য অনুপাত', 'লাভজনকতা অনুপাত', 'দক্ষতা ও ঋণ অনুপাত', 'আর্থিক বিবরণী বিশ্লেষণ'] }
+        ]
+      },
+      {
+        title: 'বাংলাদেশের ব্যাংকিং ব্যবস্থা',
+        subtopics: [
+          { title: 'বাংলাদেশ ব্যাংক', items: ['প্রতিষ্ঠা ও কার্যাবলি', 'মুদ্রানীতি ও ব্যাংক তদারকি', 'ব্যাংক নোট ও মুদ্রা ব্যবস্থাপনা', 'বৈদেশিক মুদ্রার রিজার্ভ'] },
+          { title: 'ব্যাংক ও আর্থিক প্রতিষ্ঠান', items: ['তফসিলি ব্যাংক', 'সরকারি ও বেসরকারি ব্যাংক', 'বিশেষায়িত ব্যাংক', 'আর্থিক প্রতিষ্ঠান ও ক্ষুদ্রঋণ'] },
+          { title: 'ব্যাংকিং নিয়ন্ত্রণ ও ঝুঁকি', items: ['ব্যাংকিং আইন ও বিধিবিধান', 'ঋণ শ্রেণিকরণ ও খেলাপি ঋণ', 'প্রভিশনিং ও মূলধন পর্যাপ্ততা', 'KYC ও AML-এর ধারণা', 'ব্যাংকিং ঝুঁকি ব্যবস্থাপনা'] }
+        ]
+      }
     ]
   },
   {
-    id: 'ethics', title: 'Ethics & Good Governance', bn: 'নৈতিকতা, মূল্যবোধ ও সুশাসন', icon: '⚖', color: 'gold',
-    description: 'Ethics, integrity, accountability, transparency and public service.',
+    id: 'admin',
+    title: 'Government & Post-specific',
+    bn: 'সরকারি চাকরি ও পদভিত্তিক প্রস্তুতি',
+    icon: '▤',
+    color: 'slate',
+    description: 'সরকারি নিয়োগ পরীক্ষা ও পদভিত্তিক প্রস্তুতি।',
     topics: [
-      ['Ethics and Values', ['Personal, social and professional values', 'Moral reasoning and ethical decision-making', 'Public service values and code of conduct', 'Conflict of interest and integrity']],
-      ['Good Governance', ['Rule of law and participation', 'Transparency and accountability', 'Responsiveness and effectiveness', 'Equity, inclusion and consensus', 'Anti-corruption and social accountability']],
-      ['Public Administration', ['Administrative structure of Bangladesh', 'Civil service and public policy', 'Citizen charter and grievance redress', 'Right to Information and service delivery', 'E-governance and innovation']]
-    ]
-  },
-  {
-    id: 'economics', title: 'Economics', bn: 'অর্থনীতি', icon: '৳', color: 'green',
-    description: 'Microeconomics, macroeconomics, public finance and Bangladesh economy.',
-    topics: [
-      ['Microeconomics', ['Scarcity, choice and opportunity cost', 'Demand, supply and market equilibrium', 'Elasticity and consumer behaviour', 'Production, cost and revenue', 'Market structures and price determination']],
-      ['Macroeconomics', ['National income and its measurement', 'Consumption, saving and investment', 'Inflation, unemployment and business cycle', 'Money, banking and monetary policy', 'Fiscal policy and public finance']],
-      ['Bangladesh Economy', ['Economic structure and development indicators', 'Budget, taxation and public debt', 'Agriculture, industry and services', 'Trade, balance of payments and remittances', 'Poverty, inequality and inclusive development']]
-    ]
-  },
-  {
-    id: 'banking', title: 'Banking & Finance', bn: 'ব্যাংকিং, ফিন্যান্স ও হিসাববিজ্ঞান', icon: '৳', color: 'navy',
-    description: 'Core banking, financial markets, accounting and bank recruitment topics.',
-    topics: [
-      ['Banking Fundamentals', ['Functions and types of banks', 'Central bank and monetary policy', 'Deposit, loan and credit products', 'Negotiable instruments and payment systems', 'KYC, AML and compliance concepts']],
-      ['Finance and Markets', ['Time value of money and basic valuation', 'Money market and capital market', 'Shares, bonds and securities', 'Risk management and financial inclusion', 'Foreign exchange and international banking']],
-      ['Accounting', ['Accounting principles and concepts', 'Journal, ledger and trial balance', 'Financial statements and ratios', 'Depreciation and inventory', 'Bank reconciliation']],
-      ['Banking in Bangladesh', ['Bangladesh Bank and scheduled banks', 'Banking regulation and supervision', 'Digital financial services', 'NPL, provisioning and risk concepts']]
-    ]
-  },
-  {
-    id: 'admin', title: 'Government & Post-specific', bn: 'সরকারি চাকরি ও পদভিত্তিক প্রস্তুতি', icon: '▤', color: 'slate',
-    description: 'Common public recruitment preparation; always follow the exact circular.',
-    topics: [
-      ['Common Recruitment Topics', ['বাংলা, English, mathematics and general knowledge', 'Computer and ICT', 'Constitution and public administration', 'Written composition and analytical questions', 'Viva preparation and communication']],
-      ['Post-specific Preparation', ['Read the latest recruitment circular and official syllabus', 'List subject requirements for the exact post', 'Study relevant acts, rules and departmental functions', 'Prepare technical/professional subject content', 'Track exam notices, admit cards and results from official sources']]
+      {
+        title: 'সাধারণ নিয়োগ পরীক্ষার বিষয়',
+        subtopics: [
+          { title: 'ভাষা ও সাহিত্য', items: ['বাংলা ব্যাকরণ ও সাহিত্য', 'English Grammar and Literature', 'অনুবাদ ও লিখিত দক্ষতা'] },
+          { title: 'গণিত ও মানসিক দক্ষতা', items: ['পাটিগণিত ও বীজগণিত', 'জ্যামিতি ও পরিমিতি', 'যুক্তি ও বিশ্লেষণ', 'মানসিক দক্ষতা'] },
+          { title: 'সাধারণ জ্ঞান', items: ['বাংলাদেশ বিষয়াবলি', 'আন্তর্জাতিক বিষয়াবলি', 'সাধারণ বিজ্ঞান', 'কম্পিউটার ও তথ্যপ্রযুক্তি', 'ভূগোল ও পরিবেশ'] }
+        ]
+      },
+      {
+        title: 'মন্ত্রণালয় ও অধিদপ্তরভিত্তিক প্রস্তুতি',
+        subtopics: [
+          { title: 'প্রশাসনিক ও আইনগত জ্ঞান', items: ['বাংলাদেশের সংবিধান', 'সরকারি প্রশাসন ও দাপ্তরিক কাঠামো', 'প্রাসঙ্গিক আইন, বিধি ও নীতিমালা', 'সরকারি কর্মচারী আচরণবিধি'] },
+          { title: 'দপ্তর ও প্রতিষ্ঠানের কার্যাবলি', items: ['সংশ্লিষ্ট মন্ত্রণালয়ের দায়িত্ব', 'অধিদপ্তর ও সংস্থার কাজ', 'সেবা ও প্রকল্প সম্পর্কে ধারণা', 'প্রাসঙ্গিক সরকারি কর্মসূচি'] },
+          { title: 'পদভিত্তিক প্রস্তুতি', items: ['নিয়োগ বিজ্ঞপ্তি ও নির্দিষ্ট সিলেবাস বিশ্লেষণ', 'পদের দায়িত্ব ও কাজ', 'প্রয়োজনীয় পেশাগত ও কারিগরি জ্ঞান', 'লিখিত ও ব্যবহারিক পরীক্ষার প্রস্তুতি'] }
+        ]
+      },
+      {
+        title: 'লিখিত পরীক্ষা ও ভাইভা',
+        subtopics: [
+          { title: 'লিখিত প্রস্তুতি', items: ['রচনা ও প্রবন্ধ', 'সারাংশ ও অনুবাদ', 'প্রতিবেদন ও আবেদনপত্র', 'গাণিতিক ও বিশ্লেষণধর্মী প্রশ্ন'] },
+          { title: 'ভাইভা প্রস্তুতি', items: ['নিজের পরিচয় ও শিক্ষাগত যোগ্যতা', 'নিজ জেলা ও উপজেলা সম্পর্কে জ্ঞান', 'সংশ্লিষ্ট দপ্তর ও পদের দায়িত্ব', 'সাম্প্রতিক বিষয় ও সাধারণ জ্ঞান', 'যোগাযোগ ও উপস্থাপন দক্ষতা'] },
+          { title: 'পরীক্ষার তথ্য ও ব্যবস্থাপনা', items: ['নিয়োগ বিজ্ঞপ্তি ও আবেদন', 'প্রবেশপত্র ও পরীক্ষার সময়সূচি', 'অফিশিয়াল ফলাফল ও নোটিশ', 'প্রতিষ্ঠানের সরকারি ওয়েবসাইট থেকে তথ্য যাচাই'] }
+        ]
+      }
     ]
   }
 ];
